@@ -23,7 +23,7 @@ module.exports = class StatsCommand extends Command {
             message.reply(":warning: You can't view other peoples stats!");
             return;
         }
-        let RepP = db.get(`{reputation}_${message.author.id}`); if (RepP == null)RepP = "0";
+        let RepP = db.get(`{reputation}_${message.author.id}`); if (RepP == null)RepP = "0";//TODO Update this to new db format
         let Level = db.get(`{Level}_${message.author.id}`); if (Level == null)Level = "0";
         let Money = db.get(`{money}_${message.author.id}`); if (Money == null)Money = "0";
         let WarnP = db.get(`{warnp}_${message.author.id}`); if (WarnP == null)WarnP = "0";

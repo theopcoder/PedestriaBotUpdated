@@ -17,19 +17,19 @@ module.exports = class SuggestCommand extends Command {
         message.delete();
         let words = args.split(' ');
         let reason = words.slice(0).join(' ');
-        if (!reason) return message.reply("Please say your suggestion!")
+        if (!reason) return message.reply(":warning: Incomplete command! What's your suggestion?")
         .then(message => {
-            message.delete({timeout: 5000});
+            message.delete({timeout: 10000});
         });
 
         const SuggestionMessage = new discord.MessageEmbed()
-            .setColor("0x20B2AA")
+            .setColor("#20B2AA")
             .setTimestamp()
             .setThumbnail(message.author.avatarURL())
             .setTitle('Suggestion')
             .addField('User:', `${message.author}`)
             .addField('Sugestion', reason)
-        let SuggestionChannel = message.guild.channels.cache.find(channel => channel.name === 'test-channel');//TODO put this as the suggestions channel before the update
+        let SuggestionChannel = message.guild.channels.cache.find(channel => channel.name === 'suggestions');
         SuggestionChannel.send(SuggestionMessage).then(MessageEmbed => {
             MessageEmbed.react("✅");
             MessageEmbed.react("❌");

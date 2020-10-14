@@ -9,6 +9,7 @@ Changes:
 3. Updated -rate command description and ui
 4. Updated -stats command ui
 5. If you mention a user while performing the -stats command, it will now return a error
+6. Message embeds now have a consistant ui
 
 Bug Fixes:
 1. Fixed doing the -rank command im DM's throwing an error message. It now returns a custom error message from BotData.js

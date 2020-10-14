@@ -49,10 +49,4 @@ bot.on('message', function(message){
         if (message.author.bot)return;
         message.reply("Can I have a slice of pizza? Please?");
     }
-    if (message.content == "test"){//TODO make sure this is not added
-        message.reply(Error1)
-        message.reply(Error2)
-        message.reply(Error3)
-        message.reply(Error4)
-    }
 });
