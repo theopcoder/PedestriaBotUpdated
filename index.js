@@ -10,7 +10,7 @@ const bot = new CommandoClient({
 });
 
 var Owner = "TheMLGDude#2177 | theopcoder";//TODO move to BotData.js
-var Version = "0.1.0";
+var Version = "0.0.2";
 
 bot.registry
 	.registerDefaultTypes()
@@ -27,7 +27,6 @@ bot.registry
 //End of command registration
 
 bot.login(key);
-//TODO replace token with PedestriaBot token before I release the update
 
 bot.on('ready', function(){
     console.log(`Successfully Signed Into: ${bot.user.tag}`);
