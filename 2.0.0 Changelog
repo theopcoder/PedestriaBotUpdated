@@ -9,10 +9,11 @@ Changes:
 3. Updated -rate command description and ui
 4. Updated -stats command ui
 5. If you mention a user while performing the -stats command, it will now return a error
-6. Message embeds now have a consistant ui
+6. Message embeds now have a consistant ui]
+7. Updated Level Up Message ui
 
 Bug Fixes:
 1. Fixed doing the -rank command im DM's throwing an error message. It now returns a custom error message from BotData.js
 2. Fixed -suggest reacting with X then check mark
 
-Notes: 
+Notes: In this update, I decided to remove the staff sign up commands due to the commands not being needed any more. They may return in future updates

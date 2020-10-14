@@ -2,3 +2,5 @@ node_modules
 json.sqlite
 package-lock.json
 Token.js
+CommandTemplate
+.vscode

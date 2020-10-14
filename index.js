@@ -1,8 +1,8 @@
-const { CommandoClient } = require("discord.js-commando");
+const { CommandoClient } = require("discord.js-commando"); //Refer to https://discord.js.org/#/docs/commando/master/general/welcome for help.
 const BotData = require("./BotData.js");
-const discord = require("discord.js");
+const discord = require("discord.js"); //Refer to https://discord.js.org/#/docs/main/12.3.1/general/welcome for help.
 const token = require("./Token.js");
-const db = require("quick.db");
+const db = require("quick.db"); //Refer to https://quickdb.js.org/overview/docs for help.
 const path = require("path");
 
 const bot = new CommandoClient({
@@ -10,7 +10,7 @@ const bot = new CommandoClient({
 });
 
 var Owner = "TheMLGDude#2177 | theopcoder";//TODO move to BotData.js
-var Version = "0.0.2";
+var Version = "0.0.5";
 
 bot.registry
 	.registerDefaultTypes()
@@ -18,7 +18,7 @@ bot.registry
         ['admin', 'Admin'],
         ['economy', 'Economy'],
         ['simple', 'Simple'],
-        ['staffsignup', 'ApplicationCommands'],
+        //['staffsignup', 'ApplicationCommands'],
         ['support', 'Support'],
 	])
 	.registerDefaultGroups()
@@ -48,5 +48,35 @@ bot.on('message', function(message){
     if (message.content == "pizza"){
         if (message.author.bot)return;
         message.reply("Can I have a slice of pizza? Please?");
+    }
+});
+
+//Auto Moderation
+
+
+//Level Up System
+bot.on('message', function(message){
+    if (message.author.bot)return;
+    //if (db.get("Bot.Settings.MLS")== 0)return;//TODO Add Level Up System to settings
+    db.add(`${message.author.id}.basic.xp`, 1)
+    //TODO add randomized xp?
+
+    if (db.get(`${message.author.id}.basic.xp`)== 5){//TODO replace 5 with 60
+        db.subtract(`${message.author.id}.basic.xp`, 5);//TODO Replace 5 with 60
+        db.add(`${message.author.id}.basic.level`, 1);
+        db.add(`${message.author.id}.basic.money`, 200);
+
+        const LevelUpMessage = new discord.MessageEmbed()
+            .setColor('0x0000FF')
+            .setTimestamp()
+            .setThumbnail(message.author.avatarURL())
+            .setTitle("Level Up!")//TODO define the levels
+            .setDescription(`
+                **User:** ${message.author}
+                **Level:** ${db.get(`${message.author.id}.basic.level`)}
+            `)
+            .setFooter("You have recieved $200! Nice job!")
+        let LevelUpChannel = message.guild.channels.cache.get('765786737859231754');//TODO Replace this with the proper channel id for pedestia before the official update
+        LevelUpChannel.send(LevelUpMessage);
     }
 });

@@ -1,5 +1,5 @@
 var BotData = [//TODO update this file
-    Version = "0.0.4",
+    Version = "0.0.5",
     VN = "Bug Fixes and Improvements",//VN stands for Version Name
 ];
 
@@ -16,5 +16,5 @@ var Errors = [
     Error5 = "**:no_entry_sign: Error 5:** You do NOT have the permission to perform this command/feature! :no_entry_sign:",
     Error6 = "**:warning: Error 6:** ```Invalid description or argument detected! Try making sure the command is being performed right and try again!```",
     Error7 = "**:warning: Error 7:** ```There was no description given! Please give a description or argument!```",
-    DMMessage = ":warning: You can't use this command in DM's!"
+    DMMessage = ":warning: You can't use this command in DM's!",
 ];
