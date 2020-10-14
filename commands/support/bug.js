@@ -21,7 +21,6 @@ module.exports = class BugCommand extends Command {
         .then(message => {
             message.delete({timeout: 10000});
         });
-
 		db.add("BugNumber", 1);
 
 		const BugMessage = new discord.MessageEmbed()

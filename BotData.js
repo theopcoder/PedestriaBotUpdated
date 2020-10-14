@@ -1,5 +1,5 @@
 var BotData = [//TODO update this file
-    Version = "1.2.0",
+    Version = "0.0.4",
     VN = "Bug Fixes and Improvements",//VN stands for Version Name
 ];
 

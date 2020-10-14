@@ -27,8 +27,10 @@ module.exports = class SuggestCommand extends Command {
             .setTimestamp()
             .setThumbnail(message.author.avatarURL())
             .setTitle('Suggestion')
-            .addField('User:', `${message.author}`)
-            .addField('Sugestion', reason)
+            .setDescription(`
+                **User:** ${message.author}
+                **Suggestion:** ${reason}
+            `)
         let SuggestionChannel = message.guild.channels.cache.find(channel => channel.name === 'suggestions');
         SuggestionChannel.send(SuggestionMessage).then(MessageEmbed => {
             MessageEmbed.react("✅");
