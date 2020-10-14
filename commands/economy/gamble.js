@@ -6,9 +6,9 @@ const db = require("quick.db");
 module.exports = class GambleCommand extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'ban',
+			name: 'gamble',
 			group: 'economy',
-			memberName: 'ban',
+			memberName: 'gamble',
 			description: 'Allows you to gamble!',
 		});
 	}

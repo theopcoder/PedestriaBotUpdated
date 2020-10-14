@@ -20,8 +20,8 @@ module.exports = class RankCommand extends Command {
         }
         let RankUser = message.guild.member(message.mentions.users.first());
         if (RankUser){   
-            let MentionedUsersLevel = db.get(`{Level}_${message.mentions.users.first().id}`); if (MentionedUsersLevel == null)MentionedUsersLevel = "0";//TODO replace with new array db sets
-            let MentionedUsersXP = db.get(`{xp}_${message.mentions.users.first().id}`); if (MentionedUsersXP == null)MentionedUsersXP = "0";//TODO same here
+            let MentionedUsersLevel = db.get(`${message.mentions.users.first().id}.basic.level`); if (MentionedUsersLevel == null)MentionedUsersLevel = "0";//TODO replace with new array db sets
+            let MentionedUsersXP = db.get(`${message.mentions.users.first().id}.basic.xp`); if (MentionedUsersXP == null)MentionedUsersXP = "0";//TODO same here
             let users = message.mentions.users.first();
 
             const MentionedUserRank = new discord.MessageEmbed()
@@ -35,8 +35,8 @@ module.exports = class RankCommand extends Command {
                 `)
             message.channel.send(MentionedUserRank);
         }else{
-            let Level = db.get(`{Level}_${message.author.id}`); if (Level == null)Level = "0";
-            let XP = db.get(`{xp}_${message.author.id}`); if (XP == null)XP = "0";
+            let Level = db.get(`${message.author.id}.basic.level`); if (Level == null)Level = "0";
+            let XP = db.get(`${message.author.id}.basic.xp`); if (XP == null)XP = "0";
             
             const UserRank = new discord.MessageEmbed()
                 .setColor(0x668d3c)

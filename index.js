@@ -9,9 +9,6 @@ const bot = new CommandoClient({
 	commandPrefix: '-',
 });
 
-var Owner = "TheMLGDude#2177 | theopcoder";//TODO move to BotData.js
-var Version = "0.0.5";
-
 bot.registry
 	.registerDefaultTypes()
 	.registerGroups([
@@ -30,7 +27,7 @@ bot.login(key);
 
 bot.on('ready', function(){
     console.log(`Successfully Signed Into: ${bot.user.tag}`);
-    console.log(`Bot Developer: ${Owner}`);
+    console.log(`Bot Developer: ${Developer}`);
     console.log(`Running Version: ${Version}`);
 });
 //---------------------------------------------------------------------------
@@ -57,11 +54,12 @@ bot.on('message', function(message){
 //Level Up System
 bot.on('message', function(message){
     if (message.author.bot)return;
+    if (message.guild === null)return;
     //if (db.get("Bot.Settings.MLS")== 0)return;//TODO Add Level Up System to settings
     db.add(`${message.author.id}.basic.xp`, 1)
     //TODO add randomized xp?
 
-    if (db.get(`${message.author.id}.basic.xp`)== 5){//TODO replace 5 with 60
+    if (db.get(`${message.author.id}.basic.xp`)== 0){//TODO replace 5 with 60
         db.subtract(`${message.author.id}.basic.xp`, 5);//TODO Replace 5 with 60
         db.add(`${message.author.id}.basic.level`, 1);
         db.add(`${message.author.id}.basic.money`, 200);
@@ -70,7 +68,7 @@ bot.on('message', function(message){
             .setColor('0x0000FF')
             .setTimestamp()
             .setThumbnail(message.author.avatarURL())
-            .setTitle("Level Up!")//TODO define the levels
+            .setTitle(":tada: Level Up!")//TODO have people decide to have tada on right or left
             .setDescription(`
                 **User:** ${message.author}
                 **Level:** ${db.get(`${message.author.id}.basic.level`)}

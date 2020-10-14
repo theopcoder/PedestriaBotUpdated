@@ -14,6 +14,10 @@ module.exports = class BugCommand extends Command {
 	}
 
 	run(message, args) {
+		if (message.guild === null){
+            message.reply(DMMessage);
+            return;
+        }
 		message.delete();
         let words = args.split(' ');
         let reason = words.slice(0).join(' ');

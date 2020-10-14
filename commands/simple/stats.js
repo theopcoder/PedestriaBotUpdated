@@ -23,14 +23,14 @@ module.exports = class StatsCommand extends Command {
             message.reply(":warning: You can't view other peoples stats!");
             return;
         }
-        let RepP = db.get(`{reputation}_${message.author.id}`); if (RepP == null)RepP = "0";//TODO Update this to new db format
-        let Level = db.get(`{Level}_${message.author.id}`); if (Level == null)Level = "0";
-        let Money = db.get(`{money}_${message.author.id}`); if (Money == null)Money = "0";
-        let WarnP = db.get(`{warnp}_${message.author.id}`); if (WarnP == null)WarnP = "0";
-        let MuteP = db.get(`{mutep}_${message.author.id}`); if (MuteP == null)MuteP = "0";
-        let KickP = db.get(`{kickp}_${message.author.id}`); if (KickP == null)KickP = "0";
-        let BanP = db.get(`{banp}_${message.author.id}`); if (BanP == null)BanP = "0";
-        let XP = db.get(`{xp}_${message.author.id}`); if (XP == null)XP = "0";
+        let Violations = db.get(`${message.author.id}.admin.violations`); if (Violations == null)Violations = "0";
+        let Warnings = db.get(`${message.author.id}.admin.warnings`); if (Warnings == null)Warnings = "0";
+        let Level = db.get(`${message.author.id}.basic.level`); if (Level == null)Level = "0";
+        let Money = db.get(`${message.author.id}.basic.money`); if (Money == null)Money = "0";
+        let Mutes = db.get(`${message.author.id}.admin.mutes`); if (Mutes == null)Mutes = "0";
+        let Kicks = db.get(`${message.author.id}.admin.kicks`); if (Kicks == null)Kicks = "0";
+        let Bans = db.get(`${message.author.id}.admin.bans`); if (Bans == null)Bans = "0";
+        let XP = db.get(`${message.author.id}.basic.xp`); if (XP == null)XP = "0";
 
         const UserStats = new discord.MessageEmbed()
             .setTimestamp()
@@ -41,8 +41,8 @@ module.exports = class StatsCommand extends Command {
             .setDescription(`
                 **Rank:** Level, ${Level} | XP, ${XP}
                 **Balance:** ${Money}
-                **Violations:** ${RepP}
-                **Other Offences:** Warnings: ${WarnP} | Mutes: ${MuteP} | Kicks: ${KickP} | Bans: ${BanP}
+                **Violations:** ${Violations}
+                **Other Offences:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
             `)
         message.channel.send(UserStats);
 	}

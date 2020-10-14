@@ -14,6 +14,10 @@ module.exports = class InfoCommand extends Command {
 	}
 
 	run(message, args) {
+        if (message.guild === null){
+            message.reply(DMMessage);
+            return;
+        }
         const InfoMessage = new discord.MessageEmbed()
             .setColor("0x20B2AA")
             .setTimestamp()
