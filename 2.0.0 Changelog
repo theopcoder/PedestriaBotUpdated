@@ -1,0 +1,17 @@
+2.0.0 Changelog
+
+New Commands/Features:
+1. 
+
+Changes:
+1. Updated -8ball command description
+2. Updated -rank command ui
+3. Updated -rate command description and ui
+4. Updated -stats command ui
+5. If you mention a user while performing the -stats command, it will now return a error
+
+Bug Fixes:
+1. Fixed doing the -rank command im DM's throwing an error message. It now returns a custom error message from BotData.js
+2. Fixed -suggest reacting with X then check mark
+
+Notes: 
