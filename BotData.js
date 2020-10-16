@@ -1,5 +1,5 @@
 var BotData = [//TODO update this file
-    Version = "0.0.6",
+    Version = "0.0.7",
     VN = "Bug Fixes and Improvements",//VN stands for Version Name
     Developer = "TheMLGDude#2177 | theopcoder",
     DeveloperDiscord = "TheMLGDude#2177",

@@ -40,14 +40,5 @@ module.exports = class SuggestCommand extends Command {
             MessageEmbed.react("✅");
             MessageEmbed.react("❌");
         });
-
-        const UserSuggestionDMMessage = new discord.MessageEmbed()
-            .setColor("0x20B2AA")
-            .setTimestamp()
-            .setThumbnail(message.author.avatarURL())
-            .setTitle("Suggestion")
-            .setDescription(`${reason}`)
-            .setFooter(`Thanks for your suggestion ${message.author.username}!`)
-        message.member.send(UserSuggestionDMMessage);
 	}
 };

@@ -1,7 +1,8 @@
 2.0.0 Changelog
 
 New Commands/Features:
-1. 
+1. Added deleted messages module
+2. Added edited messages module
 
 Changes:
 1. Updated -8ball command description
@@ -11,9 +12,15 @@ Changes:
 5. If you mention a user while performing the -stats command, it will now return a error
 6. Message embeds now have a consistant ui]
 7. Updated Level Up Message ui
+8. Removed the user confirmation message for suggestions
 
 Bug Fixes:
 1. Fixed doing the -rank command im DM's throwing an error message. It now returns a custom error message from BotData.js
 2. Fixed -suggest reacting with X then check mark
+
+Improvements:
+1. Improved bot stability
+2. Updated a lot of old code
+3. Quality improvements
 
 Notes: In this update, I decided to remove the staff sign up commands due to the commands not being needed any more. They may return in future updates

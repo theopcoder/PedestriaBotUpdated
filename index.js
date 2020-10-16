@@ -42,14 +42,35 @@ bot.on('message', function(message){
         if (message.author.bot)return;
         message.reply("Are you sure about that?");
     }
+    //TODO move this to diognostics command? New command? (Just the db transfer code)
     if (message.content == "pizza"){
         if (message.author.bot)return;
         message.reply("Can I have a slice of pizza? Please?");
+        db.add(`{reputation}_${message.author.id}`, 1);
+    }
+    if (message.content == "check"){
+        if (db.get(`${message.author.id}.DataTransferComplete`)== 1){
+            message.reply(db.get(`${message.author.id}.admin.Violations`));
+            return;
+        }
+        let QuickDBDataTransfer = db.get(`{reputation}_${message.author.id}`);
+        db.add(`${message.author.id}.admin.Violations`, QuickDBDataTransfer);
+        db.add(`${message.author.id}.DataTransferComplete`, 1)
+        message.reply(db.get(`${message.author.id}.admin.Violations`));
     }
 });
 
 //Auto Moderation
+bot.on('message', function(message){
+    //Mute Bypass Protection
 
+    //Chat Filter
+    
+    //Deleted Message
+
+    //Edited Messages
+
+});
 
 //Level Up System
 bot.on('message', function(message){
@@ -59,8 +80,8 @@ bot.on('message', function(message){
     db.add(`${message.author.id}.basic.xp`, 1)
     //TODO add randomized xp?
 
-    if (db.get(`${message.author.id}.basic.xp`)== 0){//TODO replace 5 with 60
-        db.subtract(`${message.author.id}.basic.xp`, 5);//TODO Replace 5 with 60
+    if (db.get(`${message.author.id}.basic.xp`)== 60){
+        db.subtract(`${message.author.id}.basic.xp`, 60);
         db.add(`${message.author.id}.basic.level`, 1);
         db.add(`${message.author.id}.basic.money`, 200);
 
