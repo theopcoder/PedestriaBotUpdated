@@ -21,8 +21,7 @@ module.exports = class BugCommand extends Command {
 		message.delete();
         let words = args.split(' ');
         let reason = words.slice(0).join(' ');
-        if (!reason) return message.reply(":warning: Incomplete command! What's the bug report?")
-        .then(message => {
+        if (!reason) return message.reply(":warning: Incomplete command! What's the bug report?").then(message => {
             message.delete({timeout: 10000});
         });
 		db.add("BugNumber", 1);
@@ -39,7 +38,7 @@ module.exports = class BugCommand extends Command {
 			`)
 		let BugReportChannel = message.guild.channels.cache.find(channel => channel.name === 'bug-reports');
 		BugReportChannel.send(BugMessage);
-
+		
 		message.channel.send(`Successfully sent your bug report ${message.author}!`);
 	}
 };

@@ -14,6 +14,9 @@ module.exports = class KickCommand extends Command {
 	}
 
 	run(message, args) {
-        
+		if (message.guild === null){
+            message.reply(DMMessage);
+            return;
+        }
 	}
 };

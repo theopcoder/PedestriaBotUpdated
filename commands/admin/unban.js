@@ -14,6 +14,10 @@ module.exports = class UnbanCommand extends Command {
 	}
 
 	run(message, args) {
-        //This command will need to use user ID's
+		//This command will need to use user ID's
+		if (message.guild === null){
+            message.reply(DMMessage);
+            return;
+        }
 	}
 };

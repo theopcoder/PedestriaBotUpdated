@@ -1,9 +1,9 @@
 const { CommandoClient } = require("discord.js-commando"); //Refer to https://discord.js.org/#/docs/commando/master/general/welcome for help.
-const BotData = require("./BotData.js");
+const BotData = require("./BotData.js");//Imports custom BotData information for the bot.
 const discord = require("discord.js"); //Refer to https://discord.js.org/#/docs/main/12.3.1/general/welcome for help.
-const token = require("./Token.js");
+const token = require("./Token.js"); //
 const db = require("quick.db"); //Refer to https://quickdb.js.org/overview/docs for help.
-const path = require("path");
+const path = require("path"); //
 
 const bot = new CommandoClient({
 	commandPrefix: '-',
@@ -42,34 +42,26 @@ bot.on('message', function(message){
         if (message.author.bot)return;
         message.reply("Are you sure about that?");
     }
-    //TODO move this to diognostics command? New command? (Just the db transfer code)
     if (message.content == "pizza"){
         if (message.author.bot)return;
         message.reply("Can I have a slice of pizza? Please?");
-        db.add(`{reputation}_${message.author.id}`, 1);
-    }
-    if (message.content == "check"){
-        if (db.get(`${message.author.id}.DataTransferComplete`)== 1){
-            message.reply(db.get(`${message.author.id}.admin.Violations`));
-            return;
-        }
-        let QuickDBDataTransfer = db.get(`{reputation}_${message.author.id}`);
-        db.add(`${message.author.id}.admin.Violations`, QuickDBDataTransfer);
-        db.add(`${message.author.id}.DataTransferComplete`, 1)
-        message.reply(db.get(`${message.author.id}.admin.Violations`));
     }
 });
 
 //Auto Moderation
 bot.on('message', function(message){
-    //Mute Bypass Protection
+    if (db.get(`placeholder`)== 0){
+        return;
+    }else{
+        //Mute Bypass Protection
 
-    //Chat Filter
-    
-    //Deleted Message
+        //Chat Filter
+        
+        //Deleted Message
 
-    //Edited Messages
+        //Edited Messages
 
+    }
 });
 
 //Level Up System
@@ -89,7 +81,7 @@ bot.on('message', function(message){
             .setColor('0x0000FF')
             .setTimestamp()
             .setThumbnail(message.author.avatarURL())
-            .setTitle(":tada: Level Up!")//TODO have people decide to have tada on right or left
+            .setTitle(":tada: Level Up!")
             .setDescription(`
                 **User:** ${message.author}
                 **Level:** ${db.get(`${message.author.id}.basic.level`)}

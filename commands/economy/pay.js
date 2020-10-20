@@ -14,6 +14,6 @@ module.exports = class PayCommand extends Command {
 	}
 
 	run(message, args) {
-        
+		
 	}
 };

@@ -21,8 +21,7 @@ module.exports = class SuggestCommand extends Command {
         message.delete();
         let words = args.split(' ');
         let reason = words.slice(0).join(' ');
-        if (!reason) return message.reply(":warning: Incomplete command! What's your suggestion?")
-        .then(message => {
+        if (!reason) return message.reply(":warning: Incomplete command! What's your suggestion?").then(message => {
             message.delete({timeout: 10000});
         });
 

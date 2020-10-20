@@ -20,8 +20,8 @@ module.exports = class RankCommand extends Command {
         }
         let RankUser = message.guild.member(message.mentions.users.first());
         if (RankUser){   
-            let MentionedUsersLevel = db.get(`${message.mentions.users.first().id}.basic.level`); if (MentionedUsersLevel == null)MentionedUsersLevel = "0";//TODO replace with new array db sets
-            let MentionedUsersXP = db.get(`${message.mentions.users.first().id}.basic.xp`); if (MentionedUsersXP == null)MentionedUsersXP = "0";//TODO same here
+            let MentionedUsersLevel = db.get(`${message.mentions.users.first().id}.basic.level`); if (MentionedUsersLevel == null)MentionedUsersLevel = "0";
+            let MentionedUsersXP = db.get(`${message.mentions.users.first().id}.basic.xp`); if (MentionedUsersXP == null)MentionedUsersXP = "0";
             let users = message.mentions.users.first();
 
             const MentionedUserRank = new discord.MessageEmbed()

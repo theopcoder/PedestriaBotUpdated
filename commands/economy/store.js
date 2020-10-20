@@ -14,6 +14,16 @@ module.exports = class StoreCommand extends Command {
 	}
 
 	run(message, args) {
-        
+		let Balance = db.get(`${message.author.id}.basic.money`); if (Balance == null)Balance = "0";
+
+		const StoreMessage = new discord.MessageEmbed()
+			.setTimestamp()
+			.setColor("#668d3c")
+			.setTitle("Store")
+			.setDescription(`
+				There are no items for sale at the moment!
+			`)
+			.setFooter(`Your Balance: $${Balance}`)
+		message.channel.send(StoreMessage);
 	}
 };

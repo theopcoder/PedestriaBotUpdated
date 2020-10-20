@@ -1,6 +1,6 @@
 var BotData = [//TODO update this file
-    Version = "0.0.7",
-    VN = "Bug Fixes and Improvements",//VN stands for Version Name
+    Version = "0.0.8",
+    VN = "Command Templates",//VN stands for Version Name
     Developer = "TheMLGDude#2177 | theopcoder",
     DeveloperDiscord = "TheMLGDude#2177",
     DeveloperGitHub = "theopcoder",
@@ -20,4 +20,5 @@ var Errors = [
     Error6 = "**:warning: Error 6:** ```Invalid description or argument detected! Try making sure the command is being performed right and try again!```",
     Error7 = "**:warning: Error 7:** ```There was no description given! Please give a description or argument!```",
     DMMessage = ":warning: You can't use this command in DM's!",
+    PermissionError = ":no_entry_sign: You do NOT have the permission to perform this command! :no_entry_sign:",
 ];

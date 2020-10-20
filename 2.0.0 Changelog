@@ -13,10 +13,12 @@ Changes:
 6. Message embeds now have a consistant ui]
 7. Updated Level Up Message ui
 8. Removed the user confirmation message for suggestions
+9. Updated -purge command messages
 
 Bug Fixes:
 1. Fixed doing the -rank command im DM's throwing an error message. It now returns a custom error message from BotData.js
 2. Fixed -suggest reacting with X then check mark
+3. Fixed bug in -purge command
 
 Improvements:
 1. Improved bot stability
