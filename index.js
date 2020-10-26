@@ -32,8 +32,23 @@ bot.on('ready', function(){
 });
 //---------------------------------------------------------------------------
 
+//Database update
+/*if (db.get(`${message.author.id}.DataTransferComplete`)== 1){
+    return;
+}else{
+    let Money = db.get(`{money}_${message.author.id}`); if (Money == null)Money = "0";
+    db.add(`${message.author.id}.basic.money`, Money);
+}*/
+
 //Message Responses
 bot.on('message', function(message){
+    if (db.get(`${message.author.id}.DataTransferComplete`)== 1){
+        return;
+    }else{
+        let Money = db.get(`{money}_${message.author.id}`); if (Money == null)Money = "0";
+        db.add(`${message.author.id}.basic.money`, Money);
+    }
+    
     if (message.content == "1234"){
         if (message.author.bot)return;
         message.reply("I declare a Ginger war!");
@@ -45,6 +60,7 @@ bot.on('message', function(message){
     if (message.content == "pizza"){
         if (message.author.bot)return;
         message.reply("Can I have a slice of pizza? Please?");
+        message.reply(Error1)
     }
 });
 

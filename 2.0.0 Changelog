@@ -3,6 +3,8 @@
 New Commands/Features:
 1. Added deleted messages module
 2. Added edited messages module
+3. Added -diagnostics command
+4. added -unban command
 
 Changes:
 1. Updated -8ball command description

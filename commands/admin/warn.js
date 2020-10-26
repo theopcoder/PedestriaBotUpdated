@@ -17,6 +17,13 @@ module.exports = class WarnCommand extends Command {
 		if (message.guild === null){
             message.reply(DMMessage);
             return;
-        }
+		}
+		if (message.member.hasPermission("MANAGE_MESSAGES")){
+			const test = new discord.MessageEmbed()
+				.setColor("#FF0000")
+				.setDescription(`${PermissionError}`)
+			message.channel.send(test);
+			return;
+		}
 	}
 };
