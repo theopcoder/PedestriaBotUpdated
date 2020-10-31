@@ -1,1 +1,2 @@
 //TODO Replace msg.deletes with new message.deletes in all files
+//TODO Move this to a dedicated command>> 		message.reply(db.get(`{WarningReason}_${message.mentions.users.first().id}`)); (Use format)

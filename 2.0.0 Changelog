@@ -5,6 +5,9 @@ New Commands/Features:
 2. Added edited messages module
 3. Added -diagnostics command
 4. added -unban command
+5. Added -transfer
+6. Doing an admin command on a user now saves the reason to the json.sqlite file
+7. Commands that send messages to specific channels can now be configured in BotData.js
 
 Changes:
 1. Updated -8ball command description

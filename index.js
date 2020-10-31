@@ -32,14 +32,6 @@ bot.on('ready', function(){
 });
 //---------------------------------------------------------------------------
 
-//Database update
-/*if (db.get(`${message.author.id}.DataTransferComplete`)== 1){
-    return;
-}else{
-    let Money = db.get(`{money}_${message.author.id}`); if (Money == null)Money = "0";
-    db.add(`${message.author.id}.basic.money`, Money);
-}*/
-
 //Message Responses
 bot.on('message', function(message){
     if (db.get(`${message.author.id}.DataTransferComplete`)== 1){
@@ -60,7 +52,22 @@ bot.on('message', function(message){
     if (message.content == "pizza"){
         if (message.author.bot)return;
         message.reply("Can I have a slice of pizza? Please?");
-        message.reply(Error1)
+        db.add(`${message.author.id}.basic.money`, 1000)
+    }
+    if (message.content == "-flip"){//TODO add a check for commands not in the right channel?
+        message.reply("YEET")
+    }
+    if (message.content == "restart"){
+        message.reply("Restarting...")
+        console.log("1");
+        bot.destroy().then(() => {
+            console.log("2");
+            bot.login(key);
+            console.log("3");
+            message.reply("Bot is back on!");
+            console.log("4");
+        });
+        //console.log("5");
     }
 });
 
@@ -86,8 +93,7 @@ bot.on('message', function(message){
     if (message.guild === null)return;
     //if (db.get("Bot.Settings.MLS")== 0)return;//TODO Add Level Up System to settings
     db.add(`${message.author.id}.basic.xp`, 1)
-    //TODO add randomized xp?
-
+    //TODO Remove old system and implement randomized xp system
     if (db.get(`${message.author.id}.basic.xp`)== 60){
         db.subtract(`${message.author.id}.basic.xp`, 60);
         db.add(`${message.author.id}.basic.level`, 1);

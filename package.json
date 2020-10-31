@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/theopcoder/PedestriaBotOfficial#readme",
   "dependencies": {
-    "discord.js": "^12.3.1",
+    "discord.js": "^12.4.1",
     "discord.js-commando": "github:discordjs/Commando",
-    "quick.db": "^7.1.2"
+    "quick.db": "^7.1.3"
   }
 }

@@ -17,6 +17,15 @@ module.exports = class KickCommand extends Command {
 		if (message.guild === null){
             message.reply(DMMessage);
             return;
-        }
+		}
+		
+		const KickLogMessage = new discord.MessageEmbed()
+			.setTimestamp()
+			.setTitle()
+			.setDescription(`
+				**${User}**
+				**Moderator:** ${message.author}
+			`)
+		message.channel.send('');//TODO add a global var in BotData.js and have it determined in the log channel message
 	}
 };

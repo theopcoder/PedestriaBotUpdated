@@ -37,6 +37,7 @@ module.exports = class SuggestCommand extends Command {
         let SuggestionChannel = message.guild.channels.cache.find(channel => channel.name === 'suggestions');
         SuggestionChannel.send(SuggestionMessage).then(MessageEmbed => {
             MessageEmbed.react("✅");
+            MessageEmbed.react("🤷");
             MessageEmbed.react("❌");
         });
 	}

@@ -1,5 +1,5 @@
 var BotData = [//TODO update this file
-    Version = "0.0.9",
+    Version = "0.0.10",
     VN = "Command Templates",//VN stands for Version Name
     Developer = "TheMLGDude#2177 | theopcoder",
     DeveloperDiscord = "TheMLGDude#2177",
@@ -20,5 +20,13 @@ var Errors = [
     Error6 = "**:warning: Error 6:** ```Invalid description or argument detected! Try making sure the command is being performed right and try again!```",
     Error7 = "**:warning: Error 7:** ```There was no description given! Please give a description or argument!```",
     DMMessage = ":warning: You can't use this command in DM's!",
-    PermissionError = ":no_entry_sign: Improper Permission!",
+    PermissionError = ":no_entry_sign: You don't have the  correct permission!",
+    NullUser = ":warning: Sorry, I couldn't find that user",
+    StaffUser = ":no_entry_sign: Sorry, you can't warn a staff member! :no_entry_sign:",
+];
+
+var ChannelConfiguration = [
+    LogChannelID = "762696806555189318",
+    LevelUpChannelID = "null",
+    WelcomeChannelID = "null",
 ];
