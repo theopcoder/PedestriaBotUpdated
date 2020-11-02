@@ -15,7 +15,7 @@ bot.registry
         ['admin', 'Admin'],
         ['economy', 'Economy'],
         ['simple', 'Simple'],
-        //['staffsignup', 'ApplicationCommands'],
+        ['staffsignup', 'ApplicationCommands'],
         ['support', 'Support'],
 	])
 	.registerDefaultGroups()
@@ -91,13 +91,14 @@ bot.on('message', function(message){
 bot.on('message', function(message){
     if (message.author.bot)return;
     if (message.guild === null)return;
-    //if (db.get("Bot.Settings.MLS")== 0)return;//TODO Add Level Up System to settings
-    db.add(`${message.author.id}.basic.xp`, 1)
-    //TODO Remove old system and implement randomized xp system
-    if (db.get(`${message.author.id}.basic.xp`)== 60){
-        db.subtract(`${message.author.id}.basic.xp`, 60);
+    //TODO add a check for if the MLS is on from settings | if (db.get("Bot.Settings.MLS")== 0)return;
+    var RandomXP = Math.floor(Math.random() * MaxRandomXP);
+    db.add(`${message.author.id}.basic.xp`, RandomXP + 1);
+
+    if (db.get(`${message.author.id}.basic.xp`) > MaxXP){
+        db.delete(`${message.author.id}.basic.xp`);
         db.add(`${message.author.id}.basic.level`, 1);
-        db.add(`${message.author.id}.basic.money`, 200);
+        db.add(`${message.author.id}.basic.money`, LevelUpMoney);
 
         const LevelUpMessage = new discord.MessageEmbed()
             .setColor('0x0000FF')
@@ -109,7 +110,7 @@ bot.on('message', function(message){
                 **Level:** ${db.get(`${message.author.id}.basic.level`)}
             `)
             .setFooter("You have recieved $200! Nice job!")
-        let LevelUpChannel = message.guild.channels.cache.get('765786737859231754');//TODO Replace this with the proper channel id for pedestia before the official update
+        let LevelUpChannel = message.guild.channels.cache.get(LevelUpChannelID);
         LevelUpChannel.send(LevelUpMessage);
     }
 });

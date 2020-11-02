@@ -22,11 +22,16 @@ var Errors = [
     DMMessage = ":warning: You can't use this command in DM's!",
     PermissionError = ":no_entry_sign: You don't have the  correct permission!",
     NullUser = ":warning: Sorry, I couldn't find that user",
-    StaffUser = ":no_entry_sign: Sorry, you can't warn a staff member! :no_entry_sign:",
+    StaffUser = ":no_entry_sign: Sorry, you can't warn a staff member!",
+    MaxRandomXP = "5",
+    MaxXP = "10",
+    LevelUpMoney = "200",
 ];
 
+//Rename to BotConfiguration?
+//TODO update the channel ID's to Pedestrias ID's before I release update
 var ChannelConfiguration = [
     LogChannelID = "762696806555189318",
-    LevelUpChannelID = "null",
+    LevelUpChannelID = "765786737859231754",
     WelcomeChannelID = "null",
 ];

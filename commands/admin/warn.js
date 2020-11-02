@@ -19,10 +19,10 @@ module.exports = class WarnCommand extends Command {
             return;
 		}
 		if (!message.member.hasPermission("MANAGE_MESSAGES")){
-			const test = new discord.MessageEmbed()
+			const PermissionErrorMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(`${PermissionError}`)
-			message.channel.send(test);
+			message.channel.send(PermissionErrorMessage);
 			return;
 		}
 		let WarnedUser = message.guild.member(message.mentions.users.first());
@@ -45,10 +45,10 @@ module.exports = class WarnCommand extends Command {
 			return;
 		}
 
-		var WarningViolationNumber = db.add(`${message.mentions.users.first().id}`, 1);
+		//var WarningViolationNumber = db.add(`${message.mentions.users.first().id}`, 1);
 		db.add(`${message.mentions.users.first().id}.admin.Warnings`, 1);
 		db.add(`${message.mentions.users.first().id}.admin.violations`, 1);
-		db.push(`{WarningReason}_${message.mentions.users.first().id}`, `**Warning ${WarningViolationNumber}:** ${words.slice(1).join(' ')}`);
+		//db.push(`{WarningReason}_${message.mentions.users.first().id}`, `**Warning ${WarningViolationNumber}:** ${words.slice(1).join(' ')}`);
 		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
 		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";
 		let Kicks = db.get(`${message.mentions.users.first().id}.admin.Kicks`); if (Kicks == null)Kicks = "0";

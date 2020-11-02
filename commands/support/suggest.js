@@ -40,5 +40,6 @@ module.exports = class SuggestCommand extends Command {
             MessageEmbed.react("🤷");
             MessageEmbed.react("❌");
         });
+        //TODO add a ping role that pings people when a new suggestion is made
 	}
 };

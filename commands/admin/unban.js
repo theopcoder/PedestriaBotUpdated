@@ -20,10 +20,10 @@ module.exports = class UnbanCommand extends Command {
             return;
 		}
 		if (!message.member.hasPermission("MANAGE_MESSAGES")){
-			const test = new discord.MessageEmbed()
+			const PermissionErrorMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(`${PermissionError}`)
-			message.channel.send(test);
+			message.channel.send(PermissionErrorMessage);
 			return;
 		}
 		let WarnedUser = message.guild.member(message.mentions.users.first());

@@ -19,36 +19,46 @@ module.exports = class BanCommand extends Command {
             return;
 		}
 		if (!message.member.hasPermission("MANAGE_MESSAGES")){
-			const test = new discord.MessageEmbed()
+			const PermissionErrorMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(`${PermissionError}`)
-			message.channel.send(test);
+			message.channel.send(PermissionErrorMessage);
 			return;
 		}
-		let WarnedUser = message.guild.member(message.mentions.users.first());
-        if(!WarnedUser) {
+		//TODO add a check for no mentioned user and a user not found?
+		let BannedUser = message.guild.member(message.mentions.users.first());
+        if(!BannedUser) {
             message.channel.send(NullUser).then(message => {
                 message.delete({timeout: 10000});
             });
             return;
 		}
-		if (WarnedUser.hasPermission("MANAGE_MESSAGES")){
-            message.reply(StaffUser);
+		if (BannedUser.hasPermission("MANAGE_MESSAGES")){
+			const StaffUserMessage = new discord.MessageEmbed()
+				.setColor("#FF0000")
+				.setDescription(StaffUser)
+			message.channel.send(StaffUserMessage);
             return;
 		}
 		let words = args.split(' ');
-        let reason = words.slice(1).join(' ');
+		let reason = words.slice(1).join(' ');
         if (!reason){
-			message.reply(':warning: Please supply a reason for the warn!').then(message => {
+			//Make this an embed?
+			message.reply(':warning: Please supply a reason for the ban!').then(message => {
                 message.delete({timeout: 10000});
 			});
 			return;
 		}
 
-		var WarningViolationNumber = db.add(`${message.mentions.users.first().id}`, 1);
-		db.add(`${message.mentions.users.first().id}.admin.Warnings`, 1);
-		db.add(`${message.mentions.users.first().id}.admin.violations`, 1);
-		db.push(`{WarningReason}_${message.mentions.users.first().id}`, `**Warning ${WarningViolationNumber}:** ${words.slice(1).join(' ')}`);
+		//Adds
+		db.add(`${message.mentions.users.first().id}.admin.Bans`, 1)
+		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
+
+		//Reason add/log
+		var BanViolationNumber = db.add(`{BanViolationNumber}_${message.mentions.users.first().id}`, 1);
+		db.push(`{BanReason}_${message.mentions.users.first().id}`, `**Ban ${BanViolationNumber}:** ${words.slice(1).join(' ')}`);
+
+		//Checks
 		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
 		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";
 		let Kicks = db.get(`${message.mentions.users.first().id}.admin.Kicks`); if (Kicks == null)Kicks = "0";
@@ -56,32 +66,37 @@ module.exports = class BanCommand extends Command {
 		let Warnings = db.get(`${message.author.id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
 		let users = message.mentions.users.first();
 
-		const ChatWarnMessage = new discord.MessageEmbed()
+		BannedUser.send(`You have been ban from ${message.guild.name} because, ${reason}.`).then(message => {
+			//BannedUser.ban({reason: reason});
+			console.log('h')
+		});
+
+		const ChatBanMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")
 			.setTimestamp()
 			.setThumbnail(users.displayAvatarURL())
-			.setTitle("Warning")
+			.setTitle("Ban")
 			.setDescription(`
 				**Moderator:** ${message.author}
-				**User:** ${WarnedUser}
+				**User:** ${BannedUser}
 				**Reason:** ${reason}
 			`)
-		message.channel.send(ChatWarnMessage);
+		message.channel.send(ChatBanMessage);
 
-		const WarnLogMessage = new discord.MessageEmbed()
+		const BanLogMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")
 			.setTimestamp()
 			.setThumbnail(users.displayAvatarURL())
-			.setTitle("Warning:")
+			.setTitle("Ban")
 			.setDescription(`
 				**Moderator:** ${message.author}
-				**Warned User:** ${WarnedUser}
+				**Banned User:** ${BannedUser}
 				**User ID:** ${message.mentions.users.first().id}
 				**Reason:** ${reason}
 				**Total Offences:** ${Violations}
 				**Other Offences:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
 			`)
 		let LogChannel = message.guild.channels.cache.get(LogChannelID);
-		LogChannel.send(WarnLogMessage);
+		LogChannel.send(BanLogMessage);
 	}
 };

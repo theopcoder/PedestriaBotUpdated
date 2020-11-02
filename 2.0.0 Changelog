@@ -15,19 +15,21 @@ Changes:
 3. Updated -rate command description and ui
 4. Updated -stats command ui
 5. If you mention a user while performing the -stats command, it will now return a error
-6. Message embeds now have a consistant ui]
+6. Message embeds now have a consistant ui
 7. Updated Level Up Message ui
 8. Removed the user confirmation message for suggestions
 9. Updated -purge command messages
+10. XP is now randomized
 
 Bug Fixes:
 1. Fixed doing the -rank command im DM's throwing an error message. It now returns a custom error message from BotData.js
 2. Fixed -suggest reacting with X then check mark
 3. Fixed bug in -purge command
+4. Fixed bug in -ban where the user is not sent a message why they where ban
 
 Improvements:
 1. Improved bot stability
-2. Updated a lot of old code
+2. Updated old code
 3. Quality improvements
 
 Notes: In this update, I decided to remove the staff sign up commands due to the commands not being needed any more. They may return in future updates
