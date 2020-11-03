@@ -4,7 +4,7 @@ This is a repository that will show progress for PedestriaBotOfficial updating t
 
 # Other:
 
-Author: theopcoder
+Author: theopcoder  
 Version: Early Access
 
 -----------------------

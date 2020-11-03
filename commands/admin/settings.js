@@ -9,7 +9,7 @@ module.exports = class SettingsCommand extends Command {
 			name: 'settings',
 			group: 'admin',
 			memberName: 'settings',
-			description: 'Controls the bot settings!',//TODO redo description?
+			description: 'Configure the bot settings.',
 		});
 	}
 

@@ -18,37 +18,43 @@ module.exports = class KickCommand extends Command {
             message.reply(DMMessage);
             return;
 		}
-		if (!message.member.hasPermission("MANAGE_MESSAGES")){
+		if (!message.member.hasPermission("KICK_MEMBERS")){
 			const PermissionErrorMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(`${PermissionError}`)
 			message.channel.send(PermissionErrorMessage);
 			return;
 		}
-		let WarnedUser = message.guild.member(message.mentions.users.first());
-        if(!WarnedUser) {
+		let KickedUser = message.guild.member(message.mentions.users.first());
+        if(!KickedUser) {
             message.channel.send(NullUser).then(message => {
                 message.delete({timeout: 10000});
             });
             return;
 		}
-		if (WarnedUser.hasPermission("MANAGE_MESSAGES")){
-            message.reply(StaffUser);
+		if (KickedUser.hasPermission("MANAGE_MESSAGES")){
+			const StaffUserMessage = new discord.MessageEmbed()
+				.setColor("#FF0000")
+				.setDescription(StaffUser)
+			message.channel.send(StaffUserMessage);
             return;
 		}
 		let words = args.split(' ');
-        let reason = words.slice(1).join(' ');
+		let reason = words.slice(1).join(' ');
         if (!reason){
-			message.reply(':warning: Please supply a reason for the warn!').then(message => {
+			const NoReasonWarning = new discord.MessageEmbed()
+				.setColor()
+				.setDescription(`:warning: Please supply a reason for the kick!`)
+			message.channel.send(NoReasonWarning).then(message => {
                 message.delete({timeout: 10000});
 			});
 			return;
 		}
 
-		var WarningViolationNumber = db.add(`${message.mentions.users.first().id}`, 1);
-		db.add(`${message.mentions.users.first().id}.admin.Warnings`, 1);
-		db.add(`${message.mentions.users.first().id}.admin.violations`, 1);
-		db.push(`{WarningReason}_${message.mentions.users.first().id}`, `**Warning ${WarningViolationNumber}:** ${words.slice(1).join(' ')}`);
+		db.add(`${message.mentions.users.first().id}.admin.Kicks`, 1)
+		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
+		var KickViolationNumber = db.add(`{KickViolationNumber}_${message.mentions.users.first().id}`, 1);
+		db.push(`{KickReason}_${message.mentions.users.first().id}`, `**Kick ${KickViolationNumber}:** ${words.slice(1).join(' ')}`);
 		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
 		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";
 		let Kicks = db.get(`${message.mentions.users.first().id}.admin.Kicks`); if (Kicks == null)Kicks = "0";
@@ -56,32 +62,38 @@ module.exports = class KickCommand extends Command {
 		let Warnings = db.get(`${message.author.id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
 		let users = message.mentions.users.first();
 
-		const ChatWarnMessage = new discord.MessageEmbed()
+		KickedUser.send(`You have been kicked from ${message.guild.name} because, ${reason}.`).then(message => {
+			KickedUser.kick(reason);
+		});
+
+		const ChatKickMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")
 			.setTimestamp()
 			.setThumbnail(users.displayAvatarURL())
-			.setTitle("Warning")
+			.setTitle("Kick")
 			.setDescription(`
 				**Moderator:** ${message.author}
-				**User:** ${WarnedUser}
+				**User:** ${KickedUser}
 				**Reason:** ${reason}
 			`)
-		message.channel.send(ChatWarnMessage);
+		message.channel.send(ChatKickMessage);
 
-		const WarnLogMessage = new discord.MessageEmbed()
+		const KickLogMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")
 			.setTimestamp()
 			.setThumbnail(users.displayAvatarURL())
-			.setTitle("Warning:")
+			.setTitle("Kick")
 			.setDescription(`
 				**Moderator:** ${message.author}
-				**Warned User:** ${WarnedUser}
+				**Kicked User:** ${KickedUser}
 				**User ID:** ${message.mentions.users.first().id}
 				**Reason:** ${reason}
 				**Total Offences:** ${Violations}
 				**Other Offences:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
 			`)
 		let LogChannel = message.guild.channels.cache.get(LogChannelID);
-		LogChannel.send(WarnLogMessage);
+		LogChannel.send(KickLogMessage);
+
+		message.reply(db.get(`{KickReason}_${message.mentions.users.first().id}`, `**Kick ${KickViolationNumber}:** ${words.slice(1).join(' ')}`));
 	}
 };

@@ -20,6 +20,7 @@ Changes:
 8. Removed the user confirmation message for suggestions
 9. Updated -purge command messages
 10. XP is now randomized
+11. -kick now logs the reason for the kick in the audit logs
 
 Bug Fixes:
 1. Fixed doing the -rank command im DM's throwing an error message. It now returns a custom error message from BotData.js

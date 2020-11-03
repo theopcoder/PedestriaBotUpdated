@@ -18,14 +18,13 @@ module.exports = class BanCommand extends Command {
             message.reply(DMMessage);
             return;
 		}
-		if (!message.member.hasPermission("MANAGE_MESSAGES")){
+		if (!message.member.hasPermission("BAN_MEMBERS")){
 			const PermissionErrorMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(`${PermissionError}`)
 			message.channel.send(PermissionErrorMessage);
 			return;
 		}
-		//TODO add a check for no mentioned user and a user not found?
 		let BannedUser = message.guild.member(message.mentions.users.first());
         if(!BannedUser) {
             message.channel.send(NullUser).then(message => {
@@ -43,22 +42,19 @@ module.exports = class BanCommand extends Command {
 		let words = args.split(' ');
 		let reason = words.slice(1).join(' ');
         if (!reason){
-			//Make this an embed?
-			message.reply(':warning: Please supply a reason for the ban!').then(message => {
+			const NoReasonWarning = new discord.MessageEmbed()
+				.setColor()
+				.setDescription(`:warning: Please supply a reason for the ban!`)
+			message.channel.send(NoReasonWarning).then(message => {
                 message.delete({timeout: 10000});
 			});
 			return;
 		}
 
-		//Adds
 		db.add(`${message.mentions.users.first().id}.admin.Bans`, 1)
 		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
-
-		//Reason add/log
 		var BanViolationNumber = db.add(`{BanViolationNumber}_${message.mentions.users.first().id}`, 1);
 		db.push(`{BanReason}_${message.mentions.users.first().id}`, `**Ban ${BanViolationNumber}:** ${words.slice(1).join(' ')}`);
-
-		//Checks
 		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
 		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";
 		let Kicks = db.get(`${message.mentions.users.first().id}.admin.Kicks`); if (Kicks == null)Kicks = "0";
@@ -67,8 +63,7 @@ module.exports = class BanCommand extends Command {
 		let users = message.mentions.users.first();
 
 		BannedUser.send(`You have been ban from ${message.guild.name} because, ${reason}.`).then(message => {
-			//BannedUser.ban({reason: reason});
-			console.log('h')
+			BannedUser.ban({reason: reason});
 		});
 
 		const ChatBanMessage = new discord.MessageEmbed()

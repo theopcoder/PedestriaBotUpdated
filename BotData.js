@@ -1,5 +1,5 @@
 var BotData = [//TODO update this file
-    Version = "0.0.10",
+    Version = "0.0.12",
     VN = "Command Templates",//VN stands for Version Name
     Developer = "TheMLGDude#2177 | theopcoder",
     DeveloperDiscord = "TheMLGDude#2177",
@@ -24,7 +24,7 @@ var Errors = [
     NullUser = ":warning: Sorry, I couldn't find that user",
     StaffUser = ":no_entry_sign: Sorry, you can't warn a staff member!",
     MaxRandomXP = "5",
-    MaxXP = "10",
+    MaxXP = "60",
     LevelUpMoney = "200",
 ];
 
