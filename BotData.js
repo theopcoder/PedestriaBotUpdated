@@ -1,5 +1,5 @@
 var BotData = [//TODO update this file
-    Version = "0.0.12",
+    Version = "0.0.13",//TODO when everything is done, commands and stuff, go 0.1.0 then 0.1.1 and so on for the bug fixes
     VN = "Command Templates",//VN stands for Version Name
     Developer = "TheMLGDude#2177 | theopcoder",
     DeveloperDiscord = "TheMLGDude#2177",
@@ -34,4 +34,5 @@ var ChannelConfiguration = [
     LogChannelID = "762696806555189318",
     LevelUpChannelID = "765786737859231754",
     WelcomeChannelID = "null",
+    DeltedMessageLogChannelID = "762696806555189318"
 ];

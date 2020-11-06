@@ -27,6 +27,7 @@ Bug Fixes:
 2. Fixed -suggest reacting with X then check mark
 3. Fixed bug in -purge command
 4. Fixed bug in -ban where the user is not sent a message why they where ban
+5. Fixed issue where the Mute Bypass Protection message didn't show the users pfp sometimes
 
 Improvements:
 1. Improved bot stability

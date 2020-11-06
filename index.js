@@ -76,15 +76,82 @@ bot.on('message', function(message){
     if (db.get(`placeholder`)== 0){
         return;
     }else{
+        if (message.author.bot)return;
+        if (message.guild === null)return;
         //Mute Bypass Protection
+        if (db.get(`${message.author.id}.admin.Mutes.CurrentlyMuted`)== 1){
+            message.delete();
+            let MuteRole = message.guild.roles.cache.get("773064107993071617");
+            message.member.roles.add(MuteRole);
 
+            const MuteBypassMessage = new discord.MessageEmbed()
+                .setColor("#4b5054")
+                .setThumbnail(message.author.displayAvatarURL())
+                .setTitle("Mute Bypass")
+                .setDescription(`
+                    **User:** ${message.author}
+                    **Time Bypassed Mute:** 
+                `)
+            message.channel.send(MuteBypassMessage);
+        }
         //Chat Filter
-        
+        var profanities =                                                                                                                                                                                           ["bitch", "fuck", "shit", "sex", "porn", "dick", "penis", "scum", "cum", "yee"];
+        let msg = message.content.toLowerCase();
+        for (x = 0; x < profanities.length; x++){
+            if (msg.includes(profanities[x])){
+                message.delete();
+                db.add(`{AMPSChatFilter}_${message.author.id}`, 1);
+                const ChatFilterMessage = new discord.MessageEmbed()
+                    .setColor("0xFFFF00")
+                    .setTimestamp()
+                    .setThumbnail(message.author.displayAvatarURL())
+                    .setAuthor(message.author.tag, message.author.displayAvatarURL())
+                    .setTitle("Auto Moderation: Chat Filter")
+                    .setDescription(`${message.author}, cursing is **NOT** allowed on this server!`)
+                message.channel.send(ChatFilterMessage).then(message => {
+                    message.delete({timeout: 15000});
+                });
+            }
+        }
         //Deleted Message
 
         //Edited Messages
 
     }
+});
+
+bot.on('messageDelete', async (message) => {
+    const entry = await message.guild.fetchAuditLogs({ type: 'MESSAGE_DELETE' }).then(audit => audit.entries.first())
+    let user = entry.executor.username
+    if (entry.createdTimestamp > Date.now() - 2000) {
+        return user;
+    }
+    else if (!entry.createdTimestamp > Date.now() - 1500) {
+        return message.author.username;
+    }
+    else {
+        message.author.username;
+    }
+
+    const DeletedMessageLog = new discord.MessageEmbed()
+        .setTimestamp()
+        .setColor("#fc3c3c")
+        .setThumbnail(message.author.displayAvatarURL())
+        .setAuthor(message.author.tag, message.author.displayAvatarURL())
+        .setTimestamp("Deleted Message")
+        .setDescription(`
+            **Author:** ${message.author}
+            **Executer:** ${username}
+            **Channel:** ${message.channel}
+            **Message:** ${message.content}
+        `)
+        .setFooter(`Message ID: ${message.id}\n Author ID: ${message.author.id}`)
+    let DeletedMessageLogChannel = message.guild.channels.cache.get(DeltedMessageLogChannelID);
+    DeletedMessageLogChannel.send(DeletedMessageLog);
+    //Added new role
+    //Deleted Role
+    //Gave member role
+    //Memeber had role removed
 });
 
 //Level Up System

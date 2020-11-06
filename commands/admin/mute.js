@@ -52,8 +52,9 @@ module.exports = class MuteCommand extends Command {
 			return;
 		}
 
-		db.add(`${message.mentions.users.first().id}.admin.Mutes`, 1)
+		db.add(`${message.mentions.users.first().id}.admin.Mutes`, 1);
 		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
+		db.add(`${message.mentions.users.first().id}.admin.Mutes.CurrentlyMuted`, 1);
 		var MuteViolationNumber = db.add(`{MuteViolationNumber}_${message.mentions.users.first().id}`, 1);
 		db.push(`{MuteReason}_${message.mentions.users.first().id}`, `**Mute ${MuteViolationNumber}:** ${words.slice(1).join(' ')}`);
 		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
@@ -64,8 +65,8 @@ module.exports = class MuteCommand extends Command {
 		let users = message.mentions.users.first();
 
 		MutedUser.send(`You have been muted on ${message.guild.name} because, ${reason}.`);
-		let role = message.guild.roles.cache.get("773064107993071617");
-		MutedUser.roles.add(role);
+		let MuteRole = message.guild.roles.cache.get("773064107993071617");
+		MutedUser.roles.add(MuteRole);
 
 		const ChatMuteMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")
