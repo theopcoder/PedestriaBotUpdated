@@ -8,6 +8,8 @@ New Commands/Features:
 5. Added -transfer
 6. Doing an admin command on a user now saves the reason to the json.sqlite file
 7. Commands that send messages to specific channels can now be configured in BotData.js
+8. There is now bot configuration in BotData.js
+9. Added power commands
 
 Changes:
 1. Updated -8ball command description
@@ -21,6 +23,8 @@ Changes:
 9. Updated -purge command messages
 10. XP is now randomized
 11. -kick now logs the reason for the kick in the audit logs
+12. Admin commands will now have more check messages auto delete, like incorrect permission messages
+13. Updated the new member message
 
 Bug Fixes:
 1. Fixed doing the -rank command im DM's throwing an error message. It now returns a custom error message from BotData.js

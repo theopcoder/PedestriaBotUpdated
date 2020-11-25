@@ -45,5 +45,6 @@ module.exports = class StatsCommand extends Command {
                 **Other Offences:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
             `)
         message.channel.send(UserStats);
+        //TODO move -ui to here
 	}
 };

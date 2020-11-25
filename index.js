@@ -6,7 +6,7 @@ const db = require("quick.db"); //Refer to https://quickdb.js.org/overview/docs 
 const path = require("path"); //
 
 const bot = new CommandoClient({
-	commandPrefix: '-',
+	commandPrefix: BotPrefix,
 });
 
 bot.registry
@@ -14,6 +14,7 @@ bot.registry
 	.registerGroups([
         ['admin', 'Admin'],
         ['economy', 'Economy'],
+        ['other', 'Other'],
         ['simple', 'Simple'],
         ['staffsignup', 'ApplicationCommands'],
         ['support', 'Support'],
@@ -31,6 +32,25 @@ bot.on('ready', function(){
     console.log(`Running Version: ${Version}`);
 });
 //---------------------------------------------------------------------------
+
+//New Members
+bot.on('guildMemberAdd', member => {
+    const NewMemberMessage = new discord.MessageEmbed()
+        .setColor("#90ee90")
+        .setTimestamp()
+        .setThumbnail(member.user.displayAvatarURL())
+        .setTitle(`Welcome to ${member.guild.name}, ${member.user.tag}!`)
+        .addField("Information:", `
+            :shopping_cart: https://store.pedestriamc.com/
+            :globe_with_meridians: https://www.pedestriamc.com/
+            :satellite: play.pedestriamc.com
+        `)
+        .addField("Welcome", "Don't forget to read <#703833697153187840> and <#704893263177580544>! Have fun!")
+    let NewMemberChannel = member.guild.channels.cache.get(WelcomeChannelID);
+    NewMemberChannel.send(NewMemberMessage);
+
+    //TODO Ask if they want to have roles auto assigned
+});
 
 //Message Responses
 bot.on('message', function(message){
@@ -76,8 +96,8 @@ bot.on('message', function(message){
     if (db.get(`placeholder`)== 0){
         return;
     }else{
-        if (message.author.bot)return;
         if (message.guild === null)return;
+        if (message.author.bot)return;
         //Mute Bypass Protection
         if (db.get(`${message.author.id}.admin.Mutes.CurrentlyMuted`)== 1){
             message.delete();
@@ -95,7 +115,7 @@ bot.on('message', function(message){
             message.channel.send(MuteBypassMessage);
         }
         //Chat Filter
-        var profanities =                                                                                                                                                                                           ["bitch", "fuck", "shit", "sex", "porn", "dick", "penis", "scum", "cum", "yee"];
+        /*var profanities =                                                                                                                                                                                           ["bitch", "fuck", "shit", "sex", "porn", "dick", "penis", "scum", "cum", "yee"];
         let msg = message.content.toLowerCase();
         for (x = 0; x < profanities.length; x++){
             if (msg.includes(profanities[x])){
@@ -112,27 +132,53 @@ bot.on('message', function(message){
                     message.delete({timeout: 15000});
                 });
             }
+        }*/
+        const swearWords =                                                                                                                                                                                          ["bitch", "fuck", "shit", "sex", "porn", "dick", "penis", "scum", "cum", "yee"];
+        if( swearWords.some(word => message.content.includes.toLowerCase(word))){
+            message.delete();
+            const ChatFilterMessage = new discord.MessageEmbed()
+                .setColor("0xFFFF00")
+                .setTimestamp()
+                .setThumbnail(message.author.displayAvatarURL())
+                .setAuthor(message.author.tag, message.author.displayAvatarURL())
+                .setTitle("Auto Moderation: Chat Filter")
+                .setDescription(`${message.author}, cursing is **NOT** allowed on this server!`)
+            message.channel.send(ChatFilterMessage).then(message => {
+                message.delete({timeout: 15000});
+            });
         }
         //Deleted Message
-
+        /*if (message.author){
+            const DeletedMessageLog = new discord.MessageEmbed()
+            .setColor("#fc3c3c")
+            .setTimestamp()
+            .setThumbnail(message.author.displayAvatarURL())
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setTimestamp("Deleted Message")
+            .setDescription(`
+                **Author:** ${message.author}
+                **Executer:** 
+                **Channel:** ${message.channel}
+                **Message:** ${message.content}
+            `)
+            .setFooter(`Message ID: ${message.id}\n Author ID: ${message.author.id}`)
+        let DeletedMessageLogChannel = message.guild.channels.cache.get(DeltedMessageLogChannelID);
+        DeletedMessageLogChannel.send(DeletedMessageLog);
+        }*/
         //Edited Messages
+
+        //Added new role
+
+        //Deleted Role
+
+        //Gave member role
+
+        //Memeber had role removed
 
     }
 });
 
-bot.on('messageDelete', async (message) => {
-    const entry = await message.guild.fetchAuditLogs({ type: 'MESSAGE_DELETE' }).then(audit => audit.entries.first())
-    let user = entry.executor.username
-    if (entry.createdTimestamp > Date.now() - 2000) {
-        return user;
-    }
-    else if (!entry.createdTimestamp > Date.now() - 1500) {
-        return message.author.username;
-    }
-    else {
-        message.author.username;
-    }
-
+/*bot.on('messageDelete', async (message) => {
     const DeletedMessageLog = new discord.MessageEmbed()
         .setTimestamp()
         .setColor("#fc3c3c")
@@ -148,17 +194,12 @@ bot.on('messageDelete', async (message) => {
         .setFooter(`Message ID: ${message.id}\n Author ID: ${message.author.id}`)
     let DeletedMessageLogChannel = message.guild.channels.cache.get(DeltedMessageLogChannelID);
     DeletedMessageLogChannel.send(DeletedMessageLog);
-    //Added new role
-    //Deleted Role
-    //Gave member role
-    //Memeber had role removed
-});
+});*/
 
 //Level Up System
 bot.on('message', function(message){
     if (message.author.bot)return;
     if (message.guild === null)return;
-    //TODO add a check for if the MLS is on from settings | if (db.get("Bot.Settings.MLS")== 0)return;
     var RandomXP = Math.floor(Math.random() * MaxRandomXP);
     db.add(`${message.author.id}.basic.xp`, RandomXP + 1);
 

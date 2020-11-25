@@ -1,2 +1,3 @@
 //TODO Replace msg.deletes with new message.deletes in all files
 //TODO Move this to a dedicated command>> 		message.reply(db.get(`{WarningReason}_${message.mentions.users.first().id}`)); (Use format)
+//TODO add a check for if the MLS is on from settings | if (db.get("Bot.Settings.MLS")== 0)return;

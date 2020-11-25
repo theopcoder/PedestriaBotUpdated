@@ -22,24 +22,31 @@ module.exports = class MuteCommand extends Command {
 			const PermissionErrorMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(`${PermissionError}`)
-			message.channel.send(PermissionErrorMessage);
+			message.channel.send(PermissionErrorMessage).then(message => {
+				message.delete({timeout: 10000})
+			});
 			return;
 		}
 		let MutedUser = message.guild.member(message.mentions.users.first());
         if(!MutedUser) {
-            message.channel.send(NullUser).then(message => {
-                message.delete({timeout: 10000});
-            });
-            return;
+			const NullUserMessage = new discord.MessageEmbed()
+				.setColor()
+				.setDescription(NullUser)
+			message.channel.send(NullUserMessage).then(message => {
+				message.delete({timeout: 10000});
+			});
+			return;
 		}
 		if (MutedUser.hasPermission("MANAGE_MESSAGES")){
 			const StaffUserMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(StaffUser)
-			message.channel.send(StaffUserMessage);
+			message.channel.send(StaffUserMessage).then(message => {
+				message.delete({timeout: 10000})
+			});
             return;
 		}
-		//TODO add a check if the user is already muted?
+
 		let words = args.split(' ');
 		let reason = words.slice(1).join(' ');
         if (!reason){
@@ -58,15 +65,16 @@ module.exports = class MuteCommand extends Command {
 		var MuteViolationNumber = db.add(`{MuteViolationNumber}_${message.mentions.users.first().id}`, 1);
 		db.push(`{MuteReason}_${message.mentions.users.first().id}`, `**Mute ${MuteViolationNumber}:** ${words.slice(1).join(' ')}`);
 		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
+		let Warnings = db.get(`${message.mentions.users.first().id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
 		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";
 		let Kicks = db.get(`${message.mentions.users.first().id}.admin.Kicks`); if (Kicks == null)Kicks = "0";
 		let Bans = db.get(`${message.mentions.users.first().id}.admin.Bans`); if (Bans == null)Bans = "0";
-		let Warnings = db.get(`${message.author.id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
 		let users = message.mentions.users.first();
 
-		MutedUser.send(`You have been muted on ${message.guild.name} because, ${reason}.`);
-		let MuteRole = message.guild.roles.cache.get("773064107993071617");
-		MutedUser.roles.add(MuteRole);
+		let MuteRole = message.guild.roles.cache.get(MuteRoleID);
+		MutedUser.roles.add(MuteRole).then(function(){
+			MutedUser.send(`You have been muted on ${message.guild.name} because, ${reason}.`);
+		});
 
 		const ChatMuteMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")

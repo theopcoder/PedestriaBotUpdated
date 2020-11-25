@@ -22,21 +22,28 @@ module.exports = class UnmuteCommand extends Command {
 			const PermissionErrorMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(`${PermissionError}`)
-			message.channel.send(PermissionErrorMessage);
+			message.channel.send(PermissionErrorMessage).then(message => {
+				message.delete({timeout: 10000})
+			});
 			return;
 		}
-		let BannedUser = message.guild.member(message.mentions.users.first());
-        if(!BannedUser) {
-            message.channel.send(NullUser).then(message => {
-                message.delete({timeout: 10000});
-            });
-            return;
+		let UnmutedUser = message.guild.member(message.mentions.users.first());
+        if(!UnmutedUser) {
+			const NullUserMessage = new discord.MessageEmbed()
+				.setColor()
+				.setDescription(NullUser)
+			message.channel.send(NullUserMessage).then(message => {
+				message.delete({timeout: 10000});
+			});
+			return;
 		}
-		if (BannedUser.hasPermission("MANAGE_MESSAGES")){
+		if (UnmutedUser.hasPermission("MANAGE_MESSAGES")){
 			const StaffUserMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(StaffUser)
-			message.channel.send(StaffUserMessage);
+			message.channel.send(StaffUserMessage).then(message => {
+				message.delete({timeout: 10000})
+			});
             return;
 		}
 		let words = args.split(' ');
@@ -44,54 +51,46 @@ module.exports = class UnmuteCommand extends Command {
         if (!reason){
 			const NoReasonWarning = new discord.MessageEmbed()
 				.setColor()
-				.setDescription(`:warning: Please supply a reason for the ban!`)
+				.setDescription(`:warning: Please supply a reason for the unmute!`)
 			message.channel.send(NoReasonWarning).then(message => {
                 message.delete({timeout: 10000});
 			});
 			return;
 		}
 
-		db.add(`${message.mentions.users.first().id}.admin.Bans`, 1)
-		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
-		var BanViolationNumber = db.add(`{BanViolationNumber}_${message.mentions.users.first().id}`, 1);
-		db.push(`{BanReason}_${message.mentions.users.first().id}`, `**Ban ${BanViolationNumber}:** ${words.slice(1).join(' ')}`);
-		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
-		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";
-		let Kicks = db.get(`${message.mentions.users.first().id}.admin.Kicks`); if (Kicks == null)Kicks = "0";
-		let Bans = db.get(`${message.mentions.users.first().id}.admin.Bans`); if (Bans == null)Bans = "0";
-		let Warnings = db.get(`${message.author.id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
+		var UnmuteNumber = db.add(`{UnmuteNumber}_${message.mentions.users.first().id}`, 1);
+		db.push(`{UnmuteReason}_${message.mentions.users.first().id}`, `**Unmute ${UnmuteNumber}:** ${words.slice(1).join(' ')}`);
 		let users = message.mentions.users.first();
 
-		BannedUser.send(`You have been ban from ${message.guild.name} because, ${reason}.`).then(message => {
-			BannedUser.ban({reason: reason});
+		let MuteRole = message.guild.roles.cache.get(MuteRoleID);
+		UnmutedUser.roles.remove(MuteRole).then(function(){
+			UnmutedUser.send(`You have been unmuted on ${message.guild.name} because, ${reason}.`);
 		});
 
-		const ChatBanMessage = new discord.MessageEmbed()
+		const ChatUnmuteMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")
 			.setTimestamp()
 			.setThumbnail(users.displayAvatarURL())
-			.setTitle("Ban")
+			.setTitle("Unmute")
 			.setDescription(`
 				**Moderator:** ${message.author}
-				**User:** ${BannedUser}
+				**User:** ${UnmutedUser}
 				**Reason:** ${reason}
 			`)
-		message.channel.send(ChatBanMessage);
+		message.channel.send(ChatUnmuteMessage);
 
-		const BanLogMessage = new discord.MessageEmbed()
+		const UnmuteLogMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")
 			.setTimestamp()
 			.setThumbnail(users.displayAvatarURL())
-			.setTitle("Ban")
+			.setTitle("Unmute")
 			.setDescription(`
 				**Moderator:** ${message.author}
-				**Banned User:** ${BannedUser}
+				**Unmuted User:** ${UnmutedUser}
 				**User ID:** ${message.mentions.users.first().id}
 				**Reason:** ${reason}
-				**Total Offences:** ${Violations}
-				**Other Offences:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
 			`)
 		let LogChannel = message.guild.channels.cache.get(LogChannelID);
-		LogChannel.send(BanLogMessage);
+		LogChannel.send(UnmuteLogMessage);
 	}
 };

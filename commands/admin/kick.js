@@ -22,21 +22,28 @@ module.exports = class KickCommand extends Command {
 			const PermissionErrorMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(`${PermissionError}`)
-			message.channel.send(PermissionErrorMessage);
+			message.channel.send(PermissionErrorMessage).then(message => {
+				message.delete({timeout: 10000})
+			});
 			return;
 		}
 		let KickedUser = message.guild.member(message.mentions.users.first());
         if(!KickedUser) {
-            message.channel.send(NullUser).then(message => {
-                message.delete({timeout: 10000});
-            });
-            return;
+			const NullUserMessage = new discord.MessageEmbed()
+				.setColor()
+				.setDescription(NullUser)
+			message.channel.send(NullUserMessage).then(message => {
+				message.delete({timeout: 10000});
+			});
+			return;
 		}
 		if (KickedUser.hasPermission("MANAGE_MESSAGES")){
 			const StaffUserMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(StaffUser)
-			message.channel.send(StaffUserMessage);
+			message.channel.send(StaffUserMessage).then(message => {
+				message.delete({timeout: 10000})
+			});
             return;
 		}
 		let words = args.split(' ');
@@ -56,10 +63,10 @@ module.exports = class KickCommand extends Command {
 		var KickViolationNumber = db.add(`{KickViolationNumber}_${message.mentions.users.first().id}`, 1);
 		db.push(`{KickReason}_${message.mentions.users.first().id}`, `**Kick ${KickViolationNumber}:** ${words.slice(1).join(' ')}`);
 		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
+		let Warnings = db.get(`${message.mentions.users.first().id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
 		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";
 		let Kicks = db.get(`${message.mentions.users.first().id}.admin.Kicks`); if (Kicks == null)Kicks = "0";
 		let Bans = db.get(`${message.mentions.users.first().id}.admin.Bans`); if (Bans == null)Bans = "0";
-		let Warnings = db.get(`${message.author.id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
 		let users = message.mentions.users.first();
 
 		KickedUser.send(`You have been kicked from ${message.guild.name} because, ${reason}.`).then(message => {
@@ -93,7 +100,5 @@ module.exports = class KickCommand extends Command {
 			`)
 		let LogChannel = message.guild.channels.cache.get(LogChannelID);
 		LogChannel.send(KickLogMessage);
-
-		message.reply(db.get(`{KickReason}_${message.mentions.users.first().id}`, `**Kick ${KickViolationNumber}:** ${words.slice(1).join(' ')}`));
 	}
 };

@@ -22,10 +22,11 @@ var Errors = [
     DMMessage = ":warning: You can't use this command in DM's!",
     PermissionError = ":no_entry_sign: You don't have the  correct permission!",
     NullUser = ":warning: Sorry, I couldn't find that user",
-    StaffUser = ":no_entry_sign: Sorry, you can't warn a staff member!",
+    StaffUser = ":no_entry_sign: Sorry, you can't perform this command on a staff member!",
     MaxRandomXP = "5",
-    MaxXP = "60",
+    MaxXP = "100",
     LevelUpMoney = "200",
+    BotPrefix = "-",
 ];
 
 //Rename to BotConfiguration?
@@ -33,6 +34,7 @@ var Errors = [
 var ChannelConfiguration = [
     LogChannelID = "762696806555189318",
     LevelUpChannelID = "765786737859231754",
-    WelcomeChannelID = "null",
-    DeltedMessageLogChannelID = "762696806555189318"
+    WelcomeChannelID = "719838618176323658",
+    DeltedMessageLogChannelID = "762696806555189318",
+    MuteRoleID = "773064107993071617",
 ];
