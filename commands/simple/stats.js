@@ -20,8 +20,9 @@ module.exports = class StatsCommand extends Command {
         }
         let MentionedStatsUser = message.guild.member(message.mentions.users.first());
         if (MentionedStatsUser){
-            message.reply(":warning: You can't view other peoples stats!");
-            return;
+            
+            //message.reply(":warning: You can't view other peoples stats!");
+            //return;
         }
         let Violations = db.get(`${message.author.id}.admin.violations`); if (Violations == null)Violations = "0";
         let Warnings = db.get(`${message.author.id}.admin.warnings`); if (Warnings == null)Warnings = "0";
@@ -45,6 +46,5 @@ module.exports = class StatsCommand extends Command {
                 **Other Offences:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
             `)
         message.channel.send(UserStats);
-        //TODO move -ui to here
 	}
 };

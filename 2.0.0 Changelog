@@ -10,6 +10,8 @@ New Commands/Features:
 7. Commands that send messages to specific channels can now be configured in BotData.js
 8. There is now bot configuration in BotData.js
 9. Added power commands
+10. Added -performance command
+11. Added -history command to view a users history
 
 Changes:
 1. Updated -8ball command description

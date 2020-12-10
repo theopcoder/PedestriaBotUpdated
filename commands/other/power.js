@@ -13,7 +13,7 @@ module.exports = class PowerCommand extends Command {
 		});
 	}
 
-	run(message, args) {
+	run(bot, message, args) {
 		if (message.guild === null){
             message.reply(DMMessage);
             return;
@@ -25,10 +25,15 @@ module.exports = class PowerCommand extends Command {
         });
 
         if (PowerAction == "restart"){
-
+            bot.destroy().then(() => {
+                bot.login(key);
+                message.reply("Bot is back on!");
+            });
         }
-        if (PowerAction == ""){
-
+        if (PowerAction == "shutdown"){
+            message.channel.send(`Shuttingdown bot...`).then(message => {
+                process.exit();
+            });
         }
 	}
 };
