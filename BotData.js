@@ -1,8 +1,8 @@
 const db = require("quick.db");
 
 var BotData = [
-    Version = "0.0.15",//TODO When finished, go 0.1.0 move to 0.1.0 then 0.1.1 for bug fixes
-    VN = "Finishing Admin Commmands",//VN stands for Version Name
+    Version = "0.0.16",//TODO When finished, go 0.1.0 move to 0.1.0 then 0.1.1 for bug fixes
+    VN = "Improvements",//VN stands for Version Name
     Developer = "TheMLGDude#2177 | theopcoder",
     DeveloperDiscord = "TheMLGDude#2177",
     DeveloperGitHub = "theopcoder",
@@ -35,28 +35,33 @@ var BotConfiguration = [
     ActivityMessage = "play.pedestriamc.com",
     StaffApplicationsSetting = "0",
     AutoModerationSetting = "1",
-    DeadChatPingSetting = "0",
+    DeadChatPingSetting = "1",
     LevelUpsSetting = "1",
     //--------------------------------------------------
     //Channel Configuration-----------------------------
-    WelcomeChannelID = "719838618176323658",
-    NewMemberRoleID = "779107330502557697",
+    WelcomeChannelID = "790133347044556800",
+    NewMemberRoleID = "790134116765925387",
     //--------------------------------------------------
     //Admin Configuration-------------------------------
-    DeletedMessageLogChannelID = "762696806555189318",
-    LogChannelID = "762696806555189318",
-    MuteRoleID = "773064107993071617",
+    DeletedMessageLogChannelID = "790133446730055680",
+    LogChannelID = "790133463126769664",
+    MuteRoleID = "790134169412829204",
     //--------------------------------------------------
     //Level Up Configuration----------------------------
-    LevelUpChannelID = "765786737859231754",
+    LevelUpChannelID = "790133196133629952",
     LevelUpMoney = "200",
     MaxRandomXP = "5",
     MaxXP = "100",
     //--------------------------------------------------
     //Dead Chat Ping Configuration----------------------
-    DCPPingChannelID = "719838618176323658",
-    DCPPingRoleID = "784217459628179466",
-    DCPTime = "10",
+    DCPPingChannelID = "790133138058903552",
+    DCPPingRoleID = "790134569222668300",
+    DCPTime = "6",
+    //--------------------------------------------------
+    //Support Channel Configuration---------------------
+    SuggestionPingRoleID = "790134237579182081",
+    SuggestionChannelID = "790133173542846544",
+    BugReportChannelID = "790133154370551808",
 ];
 
 //---------------Configuration Help---------------//

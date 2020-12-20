@@ -3,7 +3,7 @@ const BotData = require("./BotData.js");//Imports custom BotData information for
 const discord = require("discord.js"); //Refer to https://discord.js.org/#/docs/main/12.3.1/general/welcome for help.
 const token = require("./Token.js"); //Imports the token key for the bot to launch.
 const db = require("quick.db"); //Refer to https://quickdb.js.org/overview/docs for help.
-const path = require("path"); //
+const path = require("path");
 
 const bot = new CommandoClient({
 	commandPrefix: BotPrefix,
@@ -32,11 +32,11 @@ bot.on('ready', function(){
     console.log(`Running Version: ${Version}`);
 });
 
-//Default Bot Settings
-if (db.get("StaffApplicationsSetting")== null)return db.add("StaffApplicationsSetting", StaffApplicationsSetting);
-if (db.get("AutoModerationSetting")== null)return db.add("AutoModerationSetting", AutoModerationSetting);
-if (db.get("DeadChatPingSetting")== null)return db.add("DeadChatPingSetting", DeadChatPingSetting);
-if (db.get("LevelUpsSetting")== null)return db.add("LevelUpsSetting", LevelUpsSetting);
+//Default Bot Settings | Don't touch!
+if (db.get("StaffApplicationsSetting")== null)db.add("StaffApplicationsSetting", StaffApplicationsSetting);
+if (db.get("AutoModerationSetting")== null)db.add("AutoModerationSetting", AutoModerationSetting);
+if (db.get("DeadChatPingSetting")== null)db.add("DeadChatPingSetting", DeadChatPingSetting);
+if (db.get("LevelUpsSetting")== null)db.add("LevelUpsSetting", LevelUpsSetting);
 //---------------------------------------------------------------------------
 
 //New Members
@@ -61,9 +61,14 @@ bot.on('guildMemberAdd', member => {
 
 //Message Responses
 bot.on('message', function(message){
-    if (message.author.bot){
+    if (db.get("ping")== 1){
+        message.delete();
+        return;
+    }
+    if(db.get("LevelUpsSetting")== 0){
         return;
     }else{
+        if (message.author.bot)return;
         var RandomXP = Math.floor(Math.random() * MaxRandomXP);
         db.add(`${message.author.id}.basic.xp`, RandomXP + 1);
     }
@@ -79,9 +84,6 @@ bot.on('message', function(message){
     if (message.content == "pizza"){
         if (message.author.bot)return;
         message.reply("Can I have a slice of pizza? Please?");
-    }
-    if (message.content == "test"){
-        db.add(`Economy`, 1);
     }
     //Level Up System
     if (db.get(`${message.author.id}.basic.xp`) > MaxXP){
@@ -104,19 +106,11 @@ bot.on('message', function(message){
         let LevelUpChannel = message.guild.channels.cache.get(LevelUpChannelID);
         LevelUpChannel.send(LevelUpMessage);
     }
-    //TODO add a fluctuating economy?
-    //Economy
-    if (db.get(`Economy`)== 1){
-        setInterval(() => {
-            var Value = Math.floor(Math.random() * 100);
-            message.guild.channels.cache.get('784286384793321504').send(`Economy went up ${Value}`);
-        }, 5000);
-    }
 });
 
 //Auto Moderation
 bot.on('message', function(message){
-    if (db.get(`placeholder`)== 0){
+    if (db.get(`AutoModerationSetting`)== 0){
         return;
     }else{
         if (message.guild === null)return;
@@ -124,7 +118,7 @@ bot.on('message', function(message){
         //Mute Bypass Protection
         if (db.get(`${message.author.id}.admin.Mutes.CurrentlyMuted`)== 1){
             message.delete();
-            let MuteRole = message.guild.roles.cache.get("773064107993071617");
+            let MuteRole = message.guild.roles.cache.get(MuteRoleID);
             message.member.roles.add(MuteRole);
 
             const MuteBypassMessage = new discord.MessageEmbed()
@@ -138,59 +132,47 @@ bot.on('message', function(message){
             message.channel.send(MuteBypassMessage);
         }
         //Chat Filter
-        var profanities =                                                                                                                                                                                           ["bitch", "fuck", "shit", "sex", "porn", "dick", "penis", "scum", "cum", "yee"];
+        var profanities =                                                                                                                                                                                           ["bitch", "fuck", "shit", "sex", "porn", "dick", "penis", "scum", "cum", "yee"];//TODO remove yee from chat filter
         let msg = message.content.toLowerCase();
         for (x = 0; x < profanities.length; x++){
             if (msg.includes(profanities[x])){
-                if (message.channel.id === ("784286384793321504", "784286337334771732")){
-                    let mcchannel = message.guild.channels.cache.get("784286355295436801");
-                    return mcchannel.send("Works!");
-                }else{
-                    message.delete();
-                    db.add(`{AMPSChatFilter}_${message.author.id}`, 1);
-                    const ChatFilterMessage = new discord.MessageEmbed()
-                        .setColor("0xFFFF00")
-                        .setTimestamp()
-                        .setThumbnail(message.author.displayAvatarURL())
-                        .setAuthor(message.author.tag, message.author.displayAvatarURL())
-                        .setTitle("Auto Moderation: Chat Filter")
-                        .setDescription(`${message.author}, cursing is **NOT** allowed on this server!`)
-                    message.channel.send(ChatFilterMessage).then(message => {
-                        message.delete({timeout: 15000});
-                    });
-                }
+                message.delete();
+                db.add(`{AMPSChatFilter}_${message.author.id}`, 1);
+                const ChatFilterMessage = new discord.MessageEmbed()
+                    .setColor("0xFFFF00")
+                    .setTimestamp()
+                    .setThumbnail(message.author.displayAvatarURL())
+                    .setAuthor(message.author.tag, message.author.displayAvatarURL())
+                    .setTitle("Auto Moderation: Chat Filter")
+                    .setDescription(`${message.author}, cursing is **NOT** allowed on this server!`)
+                message.channel.send(ChatFilterMessage).then(message => {
+                    message.delete({timeout: 15000});
+                });
             }
         }
-        
-        //Edited Messages
-
-        //Added new role
-
-        //Deleted Role
-
-        //Gave member role
-
-        //Memeber had role removed
-
     }
 });
 
 bot.on('messageDelete', async (message) => {
-    const DeletedMessageLog = new discord.MessageEmbed()
-        .setTimestamp()
-        .setColor("#fc3c3c")
-        .setThumbnail(message.author.displayAvatarURL())
-        .setAuthor(message.author.tag, message.author.displayAvatarURL())
-        .setTimestamp("Deleted Message")
-        .setDescription(`
-            **Author:** ${message.author}
-            **Executer:** 
-            **Channel:** ${message.channel}
-            **Message:** ${message.content}
-        `)
-        .setFooter(`Message ID: ${message.id}\n Author ID: ${message.author.id}`)
-    let DeletedMessageLogChannel = message.guild.channels.cache.get(DeletedMessageLogChannelID);
-    DeletedMessageLogChannel.send(DeletedMessageLog);
+    if (db.get("AutoModerationSetting")== 0){
+        return;
+    }else{
+        if (message.guild === null)return;
+        const DeletedMessageLog = new discord.MessageEmbed()
+            .setTimestamp()
+            .setColor("#fc3c3c")
+            .setThumbnail(message.author.displayAvatarURL())
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setTitle("Deleted Message")
+            .setDescription(`
+                **Author:** ${message.author}
+                **Channel:** ${message.channel}
+                **Message:** ${message.content}
+            `)
+            .setFooter(`Message ID: ${message.id}\nAuthor ID: ${message.author.id}`)
+        let DeletedMessageLogChannel = message.guild.channels.cache.get(DeletedMessageLogChannelID);
+        DeletedMessageLogChannel.send(DeletedMessageLog);
+    }
 });
 
 //Dead Chat Pings
@@ -200,36 +182,36 @@ bot.on('ready', () => {
             return;
         }else{
             var PingChannel = bot.channels.cache.get(DCPPingChannelID);
-            var DeadChatQuestion = Math.round(Math.random() * 16);
-            if (DeadChatQuestion == 0){DCQuestion = "Which is better? Java or Bedrock Minecraft?"};
-            if (DeadChatQuestion == 1){DCQuestion = "Do you have a pre built or custom pc?"};
-            if (DeadChatQuestion == 2){DCQuestion = "What's your favorite food?"};
-            if (DeadChatQuestion == 3){DCQuestion = "Iphone or Android?"};
-            if (DeadChatQuestion == 4){DCQuestion = "Do you have pets?"};
-            if (DeadChatQuestion == 5){DCQuestion = "Whats your favorite console?"};
-            if (DeadChatQuestion == 6){DCQuestion = "Survival or Creative?"};
-            if (DeadChatQuestion == 7){DCQuestion = "Windows, Mac or Linux?"};
-            if (DeadChatQuestion == 8){DCQuestion = "Airplane or Car?"};
-            if (DeadChatQuestion == 9){DCQuestion = "Whats your favorite activity?"};
-            if (DeadChatQuestion == 13){DCQuestion = "Does pineapple belong on pizza?"};
-            if (DeadChatQuestion == 14){DCQuestion = "Are you a communist?"};
-            if (DeadChatQuestion == 15){DCQuestion = "Are dogs communist?"};
-            if (DeadChatQuestion == 16){DCPQuestion = "How has quarantine been?"};
-            if (DeadChatQuestion == 16){DCPQuestion = "How have you been?"};
-            if (DeadChatQuestion == 16){DCPQuestion = "Are you reading this?"};
-            if (DeadChatQuestion == 16){DCPQuestion = "Where you sleeping?"};
-            if (DeadChatQuestion == 16){DCPQuestion = "To be, or not to be, a potato?"};
-            if (DeadChatQuestion == 16){DCPQuestion = ""};
-    
+            var DeadChatQuestion = Math.round(Math.random() * 19);
+            if (DeadChatQuestion == 0){DCPQuestion = "Which is better? Java or Bedrock Minecraft?"};
+            if (DeadChatQuestion == 1){DCPQuestion = "Do you have a pre built or custom pc?"};
+            if (DeadChatQuestion == 2){DCPQuestion = "Does pineapple belong on pizza?"};
+            if (DeadChatQuestion == 3){DCPQuestion = "Survival or Creative Minecraft?"};
+            if (DeadChatQuestion == 4){DCPQuestion = "What's your favorite activity?"};
+            if (DeadChatQuestion == 5){DCPQuestion = "To be, or not to be, a potato?"};
+            if (DeadChatQuestion == 6){DCPQuestion = "What's your favorite console?"};
+            if (DeadChatQuestion == 7){DCPQuestion = "What's your favorite food?"};
+            if (DeadChatQuestion == 8){DCPQuestion = "How has quarantine been?"};
+            if (DeadChatQuestion == 9){DCPQuestion = "Windows, Mac or Linux?"};
+            if (DeadChatQuestion == 10){DCPQuestion = "Are you reading this?"};
+            if (DeadChatQuestion == 11){DCPQuestion = "Are you a communist?"};
+            if (DeadChatQuestion == 12){DCPQuestion = "Where you sleeping?"};
+            if (DeadChatQuestion == 13){DCPQuestion = "Are dogs communist?"};
+            if (DeadChatQuestion == 14){DCPQuestion = "How have you been?"};
+            if (DeadChatQuestion == 15){DCPQuestion = "Iphone or Android?"};
+            if (DeadChatQuestion == 16){DCPQuestion = "Do you have pets?"};
+            if (DeadChatQuestion == 17){DCPQuestion = "Airplane or Car?"};
+            if (DeadChatQuestion == 18){DCPQuestion = "Ping!"};
+
             const DeadChatPing = new discord.MessageEmbed()
                 .setTimestamp()
                 .setColor("RANDOM")
                 .setTitle("Dead Chat Ping!")
-                .addField(DCQuestion, `<@&${DCPPingRoleID}>`)
+                .addField(DCPQuestion, `<@&${DCPPingRoleID}>`)
             PingChannel.send(DeadChatPing);
-    
+
             db.add("ping", 1);
             PingChannel.send(`<@&${DCPPingRoleID}>`);
         }
-    },DCPTime * 1000);//add * 60 later
+    }, 1000 * 60 * 60 * DCPTime);
 });

@@ -36,9 +36,8 @@ module.exports = class BugCommand extends Command {
 				**Bug Number:** ${db.get("BugNumber")}
 				**Bug:** ${reason}
 			`)
-		let BugReportChannel = message.guild.channels.cache.find(channel => channel.name === 'bug-reports');
+		let BugReportChannel = message.guild.channels.cache.get(BugReportChannelID);
 		BugReportChannel.send(BugMessage);
-		
 		message.channel.send(`Successfully sent your bug report ${message.author}!`);
 	}
 };

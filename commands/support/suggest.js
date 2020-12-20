@@ -21,7 +21,7 @@ module.exports = class SuggestCommand extends Command {
         message.delete();
         let words = args.split(' ');
         let reason = words.slice(0).join(' ');
-        if (!reason) return message.reply(":warning: Incomplete command! What's your suggestion?").then(message => {
+        if (!reason)return message.reply(":warning: Incomplete command! What's your suggestion?").then(message => {
             message.delete({timeout: 10000});
         });
 
@@ -34,12 +34,15 @@ module.exports = class SuggestCommand extends Command {
                 **User:** ${message.author}
                 **Suggestion:** ${reason}
             `)
-        let SuggestionChannel = message.guild.channels.cache.find(channel => channel.name === 'suggestions');
+        let SuggestionChannel = message.guild.channels.cache.get(SuggestionChannelID);
         SuggestionChannel.send(SuggestionMessage).then(MessageEmbed => {
             MessageEmbed.react("✅");
             MessageEmbed.react("🤷");
             MessageEmbed.react("❌");
         });
-        //TODO add a ping role that pings people when a new suggestion is made
+
+        SuggestionChannel.send(`<@&${SuggestionPingRoleID}>, New suggestion!`).then(message => {
+            message.delete();
+        });
 	}
 };

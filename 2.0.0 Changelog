@@ -12,6 +12,7 @@ New Commands/Features:
 9. Added power commands
 10. Added -performance command
 11. Added -history command to view a users history
+12. Added -rps (rock paper scissors)
 
 Changes:
 1. Updated -8ball command description
