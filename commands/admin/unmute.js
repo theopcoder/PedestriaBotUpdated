@@ -58,6 +58,7 @@ module.exports = class UnmuteCommand extends Command {
 			return;
 		}
 
+		db.subtract(`${message.mentions.users.first().id}.admin.CurrentlyMuted`, 1);
 		var UnmuteNumber = db.add(`{UnmuteNumber}_${message.mentions.users.first().id}`, 1);
 		db.push(`{UnmuteReason}_${message.mentions.users.first().id}`, `**Unmute ${UnmuteNumber}:** ${words.slice(1).join(' ')}`);
 		let users = message.mentions.users.first();

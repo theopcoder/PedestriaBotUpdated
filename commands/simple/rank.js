@@ -40,7 +40,7 @@ module.exports = class RankCommand extends Command {
             
             const UserRank = new discord.MessageEmbed()
                 .setColor(0x668d3c)
-                .setThumbnail(message.author.avatarURL())
+                .setThumbnail(message.author.displayAvatarURL())
                 .setTitle("Rank")
                 .setDescription(`
                     **User:** ${message.author}
