@@ -131,7 +131,7 @@ bot.on('message', function(message){
             message.channel.send(MuteBypassMessage);
         }
         //Chat Filter
-        var profanities =                                                                                                                                                                                           ["bitch", "fuck", "shit", "sex", "porn", "dick", "penis", "faggot", "cum", "arse", "ass", "bastard", "bollocks", "bugger", "bullshit", "nigga", "nigger", "crap", "piss", "shitass", "whore", "slut", "prostitute", "motherfucker", "frigger", "prick", "dick", "cuck", "wank", "wanker", "shag"];//TODO remove yee from chat filter
+        var profanities =                                                                                                                                                                                           ["bitch", "fuck", "shit", "sex", "porn", "dick", "penis", "faggot", "cum", "arse", "ass", "bastard", "bollocks", "bugger", "bullshit", "nigga", "nigger", "crap", "piss", "shitass", "whore", "slut", "prostitute", "motherfucker", "frigger", "prick", "dick", "cuck", "wank", "wanker", "shag"];
         let msg = message.content.toLowerCase();
         for (x = 0; x < profanities.length; x++){
             if (msg.includes(profanities[x])){
@@ -201,18 +201,18 @@ bot.on('ready', () => {
             if (DeadChatQuestion == 16){DCPQuestion = "Do you have pets?"};
             if (DeadChatQuestion == 17){DCPQuestion = "Airplane or Car?"};
             if (DeadChatQuestion == 18){DCPQuestion = "What are you currently working on in Survival?"};
-	    if (DeadChatQuestion == 19){DCPQuestion = "Why is science so important to modern society?"};
-            if (DeadChatQuestion == 20){DCPQuestion = "What are you currently working on in WarLands?};
-	    if (DeadChatQuestion == 21){DCPQuestion = "Laptop, Desktop or Handheld?"};
-	    if (DeadChatQuestion == 22){DCPQuestion = "What is your favorite version of Minecraft?"};
-	    if (DeadChatQuestion == 23){DCPQuestion = "What is the most valuable thing you currently have ingame?"};
-	    if (DeadChatQuestion == 24){DCPQuestion = "What do you like to do on the weekends?"};
-	    if (DeadChatQuestion == 25){DCPQuestion = "What's your first memory?"};
-	    if (DeadChatQuestion == 26){DCPQuestion = "What's the weirdest quirk you find funny?"};
-	    if (DeadChatQuestion == 27){DCPQuestion = "What's the worst thing you ever did as a kid?"};
-	    if (DeadChatQuestion == 28){DCPQuestion = "What trait do you like most about yourself?"};
-	    if (DeadChatQuestion == 29){DCPQuestion = "What song always puts you in a good mood?"};
-	    if (DeadChatQuestion == 30){DCPQuestion = "What movie or book character do you most identify with?"};
+	        if (DeadChatQuestion == 19){DCPQuestion = "Why is science so important to modern society?"};
+            if (DeadChatQuestion == 20){DCPQuestion = "What are you currently working on in WarLands?"};
+	        if (DeadChatQuestion == 21){DCPQuestion = "Laptop, Desktop or Handheld?"};
+	        if (DeadChatQuestion == 22){DCPQuestion = "What is your favorite version of Minecraft?"};
+	        if (DeadChatQuestion == 23){DCPQuestion = "What is the most valuable thing you currently have ingame?"};
+	        if (DeadChatQuestion == 24){DCPQuestion = "What do you like to do on the weekends?"};
+	        if (DeadChatQuestion == 25){DCPQuestion = "What's your first memory?"};
+	        if (DeadChatQuestion == 26){DCPQuestion = "What's the weirdest quirk you find funny?"};
+	        if (DeadChatQuestion == 27){DCPQuestion = "What's the worst thing you ever did as a kid?"};
+	        if (DeadChatQuestion == 28){DCPQuestion = "What trait do you like most about yourself?"};
+	        if (DeadChatQuestion == 29){DCPQuestion = "What song always puts you in a good mood?"};
+	        if (DeadChatQuestion == 30){DCPQuestion = "What movie or book character do you most identify with?"};
 
             const DeadChatPing = new discord.MessageEmbed()
                 .setTimestamp()
