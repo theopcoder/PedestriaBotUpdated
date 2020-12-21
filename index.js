@@ -132,7 +132,7 @@ bot.on('message', function(message){
             message.channel.send(MuteBypassMessage);
         }
         //Chat Filter
-        var profanities =                                                                                                                                                                                           ["bitch", "fuck", "shit", "sex", "porn", "dick", "penis", "faggot", "cum", "arse", "ass", "bastard", "bollocks", "bugger", "bullshit", "nigga", "nigger", "crap", "piss", "shitass", "whore", "slut", "prostitute", "motherfucker", "frigger", "prick", "dick", "cuck", "wank", "wanker", "shag", ];//TODO remove yee from chat filter
+        var profanities =                                                                                                                                                                                           ["bitch", "fuck", "shit", "sex", "porn", "dick", "penis", "faggot", "cum", "arse", "ass", "bastard", "bollocks", "bugger", "bullshit", "nigga", "nigger", "crap", "piss", "shitass", "whore", "slut", "prostitute", "motherfucker", "frigger", "prick", "dick", "cuck", "wank", "wanker", "shag"];//TODO remove yee from chat filter
         let msg = message.content.toLowerCase();
         for (x = 0; x < profanities.length; x++){
             if (msg.includes(profanities[x])){
@@ -214,8 +214,6 @@ bot.on('ready', () => {
 	    if (DeadChatQuestion == 28){DCPQuestion = "What trait do you like most about yourself?"};
 	    if (DeadChatQuestion == 29){DCPQuestion = "What song always puts you in a good mood?"};
 	    if (DeadChatQuestion == 30){DCPQuestion = "What movie or book character do you most identify with?"};
-            if (DeadChatQuestion == 30){DCPQuestion = "Do you have pets?"
-	   
 
             const DeadChatPing = new discord.MessageEmbed()
                 .setTimestamp()
