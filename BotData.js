@@ -50,8 +50,8 @@ var BotConfiguration = [
     //Level Up Configuration----------------------------
     LevelUpChannelID = "790133196133629952",
     LevelUpMoney = "200",
-    MaxRandomXP = "5",
-    MaxXP = "100",
+    MaxRandomXP = "4",
+    MaxXP = "200",
     //--------------------------------------------------
     //Dead Chat Ping Configuration----------------------
     DCPPingChannelID = "790133138058903552",

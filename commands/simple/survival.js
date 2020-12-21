@@ -15,6 +15,6 @@ module.exports = class SurvivalGameCommand extends Command {
     //TODO finish this command before the update?
 
 	run(message, args) {
-
+		
 	}
 };

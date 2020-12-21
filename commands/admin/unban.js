@@ -14,7 +14,6 @@ module.exports = class UnbanCommand extends Command {
 	}
 
 	run(message, args) {
-		//This command will need to use user ID's
 		if (message.guild === null){
             message.reply(DMMessage);
             return;
@@ -28,8 +27,9 @@ module.exports = class UnbanCommand extends Command {
 			});
 			return;
 		}
-		let UnbannedUser = message.guild.member(message.mentions.users.first());
-        if(!UnbannedUser) {
+		let words = args.split(' ');
+		let reason = words.slice(1).join(' ');
+        if(!words[0]){
 			const NullUserMessage = new discord.MessageEmbed()
 				.setColor()
 				.setDescription(NullUser)
@@ -38,17 +38,6 @@ module.exports = class UnbanCommand extends Command {
 			});
 			return;
 		}
-		if (UnbannedUser.hasPermission("MANAGE_MESSAGES")){
-			const StaffUserMessage = new discord.MessageEmbed()
-				.setColor("#FF0000")
-				.setDescription(StaffUser)
-			message.channel.send(StaffUserMessage).then(message => {
-				message.delete({timeout: 10000})
-			});
-            return;
-		}
-		let words = args.split(' ');
-		let reason = words.slice(1).join(' ');
         if (!reason){
 			const NoReasonWarning = new discord.MessageEmbed()
 				.setColor()
@@ -59,45 +48,29 @@ module.exports = class UnbanCommand extends Command {
 			return;
 		}
 
-		var UnbanViolationNumber = db.add(`{UnbanViolationNumber}_${message.mentions.users.first().id}`, 1);
-		db.push(`{UnbanReason}_${message.mentions.users.first().id}`, `**Ban ${UnbanViolationNumber}:** ${words.slice(1).join(' ')}`);
-		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
-		let Warnings = db.get(`${message.mentions.users.first().id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
-		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";
-		let Kicks = db.get(`${message.mentions.users.first().id}.admin.Kicks`); if (Kicks == null)Kicks = "0";
-		let Bans = db.get(`${message.mentions.users.first().id}.admin.Bans`); if (Bans == null)Bans = "0";
-		let users = message.mentions.users.first();
-
-		UnbannedUser.send(`You have been ban from ${message.guild.name} because, ${reason}.`).then(message => {
-			UnbannedUser.ban({reason: reason});
-		});
+		message.guild.members.unban(words[0]);
 
 		const ChatBanMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")
 			.setTimestamp()
-			.setThumbnail(users.displayAvatarURL())
 			.setTitle("Ban")
 			.setDescription(`
 				**Moderator:** ${message.author}
-				**User:** ${UnbannedUser}
+				**User:** ${words[0].username}
 				**Reason:** ${reason}
 			`)
 		message.channel.send(ChatBanMessage);
 
-		const BanLogMessage = new discord.MessageEmbed()
+		const UnBanLogMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")
 			.setTimestamp()
-			.setThumbnail(users.displayAvatarURL())
-			.setTitle("Ban")
+			.setTitle("Unban")
 			.setDescription(`
 				**Moderator:** ${message.author}
-				**Banned User:** ${UnbannedUser}
-				**User ID:** ${message.mentions.users.first().id}
+				**Banned User:** ${words[0]}
 				**Reason:** ${reason}
-				**Total Offences:** ${Violations}
-				**Other Offences:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
 			`)
 		let LogChannel = message.guild.channels.cache.get(LogChannelID);
-		LogChannel.send(BanLogMessage);
+		LogChannel.send(UnBanLogMessage);
 	}
 };

@@ -16,7 +16,6 @@ bot.registry
         ['economy', 'Economy'],
         ['other', 'Other'],
         ['simple', 'Simple'],
-        ['staffsignup', 'ApplicationCommands'],
         ['support', 'Support'],
 	])
 	.registerDefaultGroups()
@@ -55,8 +54,8 @@ bot.on('guildMemberAdd', member => {
     let NewMemberChannel = member.guild.channels.cache.get(WelcomeChannelID);
     NewMemberChannel.send(NewMemberMessage);
 
-    let memberRole = member.guild.roles.cache.get(NewMemberRoleID);
-    member.addRole(memberRole);
+    let MemberRole = member.guild.roles.cache.get(NewMemberRoleID);
+    member.roles.add(MemberRole);
 });
 
 //Message Responses
@@ -71,19 +70,6 @@ bot.on('message', function(message){
         if (message.author.bot)return;
         var RandomXP = Math.floor(Math.random() * MaxRandomXP);
         db.add(`${message.author.id}.basic.xp`, RandomXP + 1);
-    }
-    
-    if (message.content == "1234"){
-        if (message.author.bot)return;
-        message.reply("I declare a Ginger war!");
-    }
-    if (message.content == "4321"){
-        if (message.author.bot)return;
-        message.reply("Are you sure about that?");
-    }
-    if (message.content == "pizza"){
-        if (message.author.bot)return;
-        message.reply("Can I have a slice of pizza? Please?");
     }
     //Level Up System
     if (db.get(`${message.author.id}.basic.xp`) > MaxXP){
@@ -105,6 +91,19 @@ bot.on('message', function(message){
             .setFooter("You have recieved $200! Nice job!")
         let LevelUpChannel = message.guild.channels.cache.get(LevelUpChannelID);
         LevelUpChannel.send(LevelUpMessage);
+    }
+    
+    if (message.content == "1234"){
+        if (message.author.bot)return;
+        message.reply("I declare a Ginger war!");
+    }
+    if (message.content == "4321"){
+        if (message.author.bot)return;
+        message.reply("Are you sure about that?");
+    }
+    if (message.content == "pizza"){
+        if (message.author.bot)return;
+        message.reply("Can I have a slice of pizza? Please?");
     }
 });
 

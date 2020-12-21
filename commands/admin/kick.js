@@ -58,7 +58,7 @@ module.exports = class KickCommand extends Command {
 			return;
 		}
 
-		db.add(`${message.mentions.users.first().id}.admin.Kicks`, 1)
+		db.add(`${message.mentions.users.first().id}.admin.Kicks`, 1);
 		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
 		var KickViolationNumber = db.add(`{KickViolationNumber}_${message.mentions.users.first().id}`, 1);
 		db.push(`{KickReason}_${message.mentions.users.first().id}`, `**Kick ${KickViolationNumber}:** ${words.slice(1).join(' ')}`);

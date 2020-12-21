@@ -38,12 +38,6 @@ module.exports = class WarnCommand extends Command {
 			return;
 		}
 		if (WarnedUser.hasPermission("MANAGE_MESSAGES")){
-            message.reply(StaffUser);
-            return;
-		}
-		let words = args.split(' ');
-        let reason = words.slice(1).join(' ');
-        if (!reason){
 			const StaffUserMessage = new discord.MessageEmbed()
 				.setColor("#FF0000")
 				.setDescription(StaffUser)
@@ -52,8 +46,19 @@ module.exports = class WarnCommand extends Command {
 			});
 			return;
 		}
+		let words = args.split(' ');
+        let reason = words.slice(1).join(' ');
+        if (!reason){
+			const NoReasonWarning = new discord.MessageEmbed()
+				.setColor()
+				.setDescription(`:warning: Please supply a reason for the warning!`)
+			message.channel.send(NoReasonWarning).then(message => {
+                message.delete({timeout: 10000});
+			});
+			return;
+		}
 
-		db.add(`${message.mentions.users.first().id}.admin.Warnings`, 1)
+		db.add(`${message.mentions.users.first().id}.admin.Warnings`, 1);
 		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
 		var WarningViolationNumber = db.add(`{WarningViolationNumber}_${message.mentions.users.first().id}`, 1);
 		db.push(`{WarnReason}_${message.mentions.users.first().id}`, `**Warning ${WarningViolationNumber}:** ${words.slice(1).join(' ')}`);

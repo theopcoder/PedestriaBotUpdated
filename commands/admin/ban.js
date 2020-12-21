@@ -58,7 +58,7 @@ module.exports = class BanCommand extends Command {
 			return;
 		}
 
-		db.add(`${message.mentions.users.first().id}.admin.Bans`, 1)
+		db.add(`${message.mentions.users.first().id}.admin.Bans`, 1);
 		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
 		var BanViolationNumber = db.add(`{BanViolationNumber}_${message.mentions.users.first().id}`, 1);
 		db.push(`{BanReason}_${message.mentions.users.first().id}`, `**Ban ${BanViolationNumber}:** ${words.slice(1).join(' ')}`);
