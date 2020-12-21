@@ -1,7 +1,7 @@
 const db = require("quick.db");
 
 var BotData = [
-    Version = "0.0.16",//TODO When finished, go 0.1.0 move to 0.1.0 then 0.1.1 for bug fixes
+    Version = "0.0.18",//TODO When finished, go 0.1.0 move to 0.1.0 then 0.1.1 for bug fixes
     VN = "Improvements",//VN stands for Version Name
     Developer = "TheMLGDude#2177 | theopcoder",
     DeveloperDiscord = "TheMLGDude#2177",
