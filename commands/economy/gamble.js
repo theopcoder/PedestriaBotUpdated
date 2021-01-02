@@ -34,7 +34,7 @@ module.exports = class GambleCommand extends Command {
             return;
         }
         if (Extra)return message.reply("Incorect command usage/arguments! Example: -gamble 1500");
-        if (!bet) return message.reply(':warning: You must bet atleast $1000 to use this command!').then(message => {
+        if (!bet)return message.reply(':warning: You must bet atleast $1000 to use this command!').then(message => {
 			message.delete({timeout: 10000});
 		});
         if (bet < 10)return message.channel.send(`I'm sorry ${message.author}, you have to bet **$1000** or more to use this command!`);

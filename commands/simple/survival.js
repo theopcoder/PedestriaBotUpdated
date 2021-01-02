@@ -12,7 +12,7 @@ module.exports = class SurvivalGameCommand extends Command {
 			description: 'A built in survival game!',
 		});
     }
-    //TODO finish this command before the update?
+    //TODO Finish survival game command
 
 	run(message, args) {
 		

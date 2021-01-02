@@ -54,6 +54,7 @@ module.exports = class HistoryCommand extends Command {
 			.setColor()
 			.setThumbnail(users.displayAvatarURL())
 			.setTitle("User History")
+			.setDescription(`User: ${HistoryUser}`)
 			.addField("Warnings:", WarnHistory)
 			.addField("Mutes:", MuteHistory)
 			.addField("Kicks:", KickHistory)

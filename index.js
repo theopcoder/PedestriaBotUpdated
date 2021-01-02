@@ -25,7 +25,7 @@ bot.registry
 bot.login(key);
 
 bot.on('ready', function(){
-    //bot.SetActivity(ActivityMessage);
+    bot.user.setActivity(ActivityMessage);
     console.log(`Successfully Signed Into: ${bot.user.tag}`);
     console.log(`Bot Developer: ${Developer}`);
     console.log(`Running Version: ${Version}`);
@@ -64,17 +64,39 @@ bot.on('message', function(message){
         message.delete();
         return;
     }
+    if (db.get(`${message.author.id}.DataTransferComplete`)== null){
+        if(message.author.bot)return;
+        let RepP = db.get(`{reputation}_${message.author.id}`); if (RepP == null)RepP = "0";
+        let Level = db.get(`{Level}_${message.author.id}`); if (Level == null)Level = "0";
+        let Money = db.get(`{money}_${message.author.id}`); if (Money == null)Money = "0";
+        let WarnP = db.get(`{warnp}_${message.author.id}`); if (WarnP == null)WarnP = "0";
+        let MuteP = db.get(`{mutep}_${message.author.id}`); if (MuteP == null)MuteP = "0";
+        let KickP = db.get(`{kickp}_${message.author.id}`); if (KickP == null)KickP = "0";
+        let BanP = db.get(`{banp}_${message.author.id}`); if (BanP == null)BanP = "0";
+		let XP = db.get(`{xp}_${message.author.id}`); if (XP == null)XP = "0";
+	
+		db.add(`${message.author.id}.admin.Violations`, RepP);
+		db.add(`${message.author.id}.admin.Warnings`, WarnP);
+		db.add(`${message.author.id}.admin.Kicks`, KickP);
+		db.add(`${message.author.id}.admin.Mutes`, MuteP);
+		db.add(`${message.author.id}.basic.level`, Level);
+		db.add(`${message.author.id}.basic.money`, Money);
+		db.add(`${message.author.id}.admin.Bans`, BanP);
+		db.add(`${message.author.id}.basic.xp`, XP);
+
+		db.add(`${message.author.id}.DataTransferComplete`, 1);
+    }
     if(db.get("LevelUpsSetting")== 0){
         return;
     }else{
         if (message.author.bot)return;
+        if (message.guild === null)return;
         var RandomXP = Math.floor(Math.random() * MaxRandomXP);
-        db.add(`${message.author.id}.basic.xp`, RandomXP + 1);
+        db.add(`${message.author.id}.basic.xp`, RandomXP);
     }
     //Level Up System
     if (db.get(`${message.author.id}.basic.xp`) > MaxXP){
         if (message.author.bot)return;
-        if (message.guild === null)return;
         db.delete(`${message.author.id}.basic.xp`);
         db.add(`${message.author.id}.basic.level`, 1);
         db.add(`${message.author.id}.basic.money`, LevelUpMoney);
@@ -88,7 +110,7 @@ bot.on('message', function(message){
                 **User:** ${message.author}
                 **Level:** ${db.get(`${message.author.id}.basic.level`)}
             `)
-            .setFooter("You have recieved $200! Nice job!")
+            .setFooter(`You have recieved $${LevelUpMoney}! Nice job!`)
         let LevelUpChannel = message.guild.channels.cache.get(LevelUpChannelID);
         LevelUpChannel.send(LevelUpMessage);
     }
@@ -149,6 +171,15 @@ bot.on('message', function(message){
                 });
             }
         }
+        if (message.content.includes('discord.gg/'||'discordapp.com/invite/')){
+            message.delete();
+            const DiscordInviteWarning = new discord.MessageEmbed()
+                .setThumbnail(message.author.displayAvatarURL())
+                .setAuthor(message.author.tag, message.author.displayAvatarURL())
+                .setTitle("No Discord Invites")
+                .setDescription(`${message.author} Discord invites aren't allowed here!`)
+            message.channel.send(DiscordInviteWarning);
+        }
     }
 });
 
@@ -181,38 +212,38 @@ bot.on('ready', () => {
             return;
         }else{
             var PingChannel = bot.channels.cache.get(DCPPingChannelID);
-            var DeadChatQuestion = Math.round(Math.random() * 30);
-            if (DeadChatQuestion == 0){DCPQuestion = "Java or Bedrock Minecraft?"};
-            if (DeadChatQuestion == 1){DCPQuestion = "Would you say you make friends easily?"};
+            var DeadChatQuestion = Math.round(Math.random() * 31);
+            if (DeadChatQuestion == 0){DCPQuestion = "What is the most valuable thing you currently have ingame?"};
+            if (DeadChatQuestion == 1){DCPQuestion = "What movie or book character do you most identify with?"};
             if (DeadChatQuestion == 2){DCPQuestion = "As a child, what did you wish to be when you grew up?"};
-            if (DeadChatQuestion == 3){DCPQuestion = "Survival, Creative or Hardcore Minecraft?"};
-            if (DeadChatQuestion == 4){DCPQuestion = "What's your favorite activity?"};
-            if (DeadChatQuestion == 5){DCPQuestion = "What do you like to do on a rainy day?"};
-            if (DeadChatQuestion == 6){DCPQuestion = "What is your favorite form of transportation?"};
-            if (DeadChatQuestion == 7){DCPQuestion = "What's your favorite food?"};
-            if (DeadChatQuestion == 8){DCPQuestion = "Are we seeing signs of evolution in our species?"};
-            if (DeadChatQuestion == 9){DCPQuestion = "Windows, MacOS or Linux?"};
-            if (DeadChatQuestion == 10){DCPQuestion = "Playstation Or Xbox?"};
-            if (DeadChatQuestion == 11){DCPQuestion = "What's your favourite type of music?"};
-            if (DeadChatQuestion == 12){DCPQuestion = "What is your favourite Disney movie?"};
-            if (DeadChatQuestion == 13){DCPQuestion = "Is time relative to a person or universal?"};
-            if (DeadChatQuestion == 14){DCPQuestion = "How have you been?"};
-            if (DeadChatQuestion == 15){DCPQuestion = "Iphone or Android?"};
-            if (DeadChatQuestion == 16){DCPQuestion = "Do you have pets?"};
-            if (DeadChatQuestion == 17){DCPQuestion = "Airplane or Car?"};
-            if (DeadChatQuestion == 18){DCPQuestion = "What are you currently working on in Survival?"};
-	        if (DeadChatQuestion == 19){DCPQuestion = "Why is science so important to modern society?"};
-            if (DeadChatQuestion == 20){DCPQuestion = "What are you currently working on in WarLands?"};
-	        if (DeadChatQuestion == 21){DCPQuestion = "Laptop, Desktop or Handheld?"};
-	        if (DeadChatQuestion == 22){DCPQuestion = "What is your favorite version of Minecraft?"};
-	        if (DeadChatQuestion == 23){DCPQuestion = "What is the most valuable thing you currently have ingame?"};
-	        if (DeadChatQuestion == 24){DCPQuestion = "What do you like to do on the weekends?"};
-	        if (DeadChatQuestion == 25){DCPQuestion = "What's your first memory?"};
-	        if (DeadChatQuestion == 26){DCPQuestion = "What's the weirdest quirk you find funny?"};
-	        if (DeadChatQuestion == 27){DCPQuestion = "What's the worst thing you ever did as a kid?"};
-	        if (DeadChatQuestion == 28){DCPQuestion = "What trait do you like most about yourself?"};
-	        if (DeadChatQuestion == 29){DCPQuestion = "What song always puts you in a good mood?"};
-	        if (DeadChatQuestion == 30){DCPQuestion = "What movie or book character do you most identify with?"};
+            if (DeadChatQuestion == 3){DCPQuestion = "Are we seeing signs of evolution in our species?"};
+            if (DeadChatQuestion == 4){DCPQuestion = "What are you currently working on in Survival?"};
+	        if (DeadChatQuestion == 5){DCPQuestion = "Why is science so important to modern society?"};
+            if (DeadChatQuestion == 6){DCPQuestion = "What are you currently working on in WarLands?"};
+            if (DeadChatQuestion == 7){DCPQuestion = "What is your favorite form of transportation?"};
+            if (DeadChatQuestion == 8){DCPQuestion = "What's the worst thing you ever did as a kid?"};
+            if (DeadChatQuestion == 9){DCPQuestion = "What trait do you like most about yourself?"};
+            if (DeadChatQuestion == 10){DCPQuestion = "What is your favorite version of Minecraft?"};
+            if (DeadChatQuestion == 11){DCPQuestion = "Is time relative to a person or universal?"};
+	        if (DeadChatQuestion == 12){DCPQuestion = "What song always puts you in a good mood?"};
+            if (DeadChatQuestion == 13){DCPQuestion = "What's the weirdest quirk you find funny?"};
+            if (DeadChatQuestion == 14){DCPQuestion = "Survival, Creative or Hardcore Minecraft?"};
+            if (DeadChatQuestion == 15){DCPQuestion = "What do you like to do on the weekends?"};
+            if (DeadChatQuestion == 16){DCPQuestion = "Would you say you make friends easily?"};
+            if (DeadChatQuestion == 17){DCPQuestion = "What do you like to do on a rainy day?"};
+            if (DeadChatQuestion == 18){DCPQuestion = "What's your favourite type of music?"};
+            if (DeadChatQuestion == 19){DCPQuestion = "What is your favourite Disney movie?"};
+            if (DeadChatQuestion == 20){DCPQuestion = "What's your favorite activity?"};
+            if (DeadChatQuestion == 21){DCPQuestion = "Laptop, Desktop or Handheld?"};
+            if (DeadChatQuestion == 22){DCPQuestion = "What's your favorite food?"};
+            if (DeadChatQuestion == 23){DCPQuestion = "Java or Bedrock Minecraft?"};
+            if (DeadChatQuestion == 24){DCPQuestion = "What's your first memory?"};
+            if (DeadChatQuestion == 25){DCPQuestion = "Windows, MacOS or Linux?"};
+            if (DeadChatQuestion == 26){DCPQuestion = "Playstation Or Xbox?"};
+            if (DeadChatQuestion == 27){DCPQuestion = "How have you been?"};
+            if (DeadChatQuestion == 28){DCPQuestion = "Iphone or Android?"};
+            if (DeadChatQuestion == 29){DCPQuestion = "Do you have pets?"};
+            if (DeadChatQuestion == 30){DCPQuestion = "Airplane or Car?"};
 
             const DeadChatPing = new discord.MessageEmbed()
                 .setTimestamp()

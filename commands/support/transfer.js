@@ -14,20 +14,8 @@ module.exports = class DataTransferCommand extends Command {
 	}
 
 	run(message, args) {
-		//Check commands after everything else
 		if (db.get(`${message.author.id}.DataTransferComplete`)== 1){
 			message.reply("You have already transfered your data! If something didn't transfer correctly, message TheMLGDude#2177 on Discord!");
-			message.reply(`${
-				db.get(`${message.author.id}.admin.Violations`)+
-				db.get(`${message.author.id}.admin.Warnings`)+
-				db.get(`${message.author.id}.admin.Bans`)+
-				db.get(`${message.author.id}.admin.Kicks`)+
-				db.get(`${message.author.id}.admin.Mutes`)+
-				db.get(`${message.author.id}.basic.level`)+
-				db.get(`${message.author.id}.basic.xp`)+
-				db.get(`${message.author.id}.basic.money`)}
-				PlaceHolder:
-			`);
 			return;
 		}
 		message.reply("Transfering your data... :open_file_folder:");
@@ -43,18 +31,15 @@ module.exports = class DataTransferCommand extends Command {
 	
 		db.add(`${message.author.id}.admin.Violations`, RepP);
 		db.add(`${message.author.id}.admin.Warnings`, WarnP);
-		db.add(`${message.author.id}.admin.Bans`, BanP);
 		db.add(`${message.author.id}.admin.Kicks`, KickP);
 		db.add(`${message.author.id}.admin.Mutes`, MuteP);
 		db.add(`${message.author.id}.basic.level`, Level);
-		db.add(`${message.author.id}.basic.xp`, XP);
 		db.add(`${message.author.id}.basic.money`, Money);
+		db.add(`${message.author.id}.admin.Bans`, BanP);
+		db.add(`${message.author.id}.basic.xp`, XP);
 
-		db.add(`${message.author.id}.DataTransferComplete`, 1)
+		db.add(`${message.author.id}.DataTransferComplete`, 1);
 
-		/*let QuickDBDataTransfer = db.get(`{reputation}_${message.author.id}`);
-		db.add(`${message.author.id}.admin.Violations`, QuickDBDataTransfer);
-		db.add(`${message.author.id}.DataTransferComplete`, 1);*/
 		setTimeout(function(){
 			message.reply("Successfully transfered your data! :file_cabinet:");
 		}, 3000);

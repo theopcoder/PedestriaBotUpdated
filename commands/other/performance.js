@@ -1,4 +1,4 @@
-const { Command } = require('discord.js-commando');
+const { Command } = require("discord.js-commando");
 const BotData = require("../../BotData.js");
 const discord = require("discord.js");
 const db = require("quick.db");
@@ -13,21 +13,25 @@ module.exports = class PerformanceCommand extends Command {
 		});
 	}
 
-	run(bot, message, args) {
+	run(message, args) {
 		if (message.guild === null){
             message.reply(DMMessage);
             return;
 		}
 		
+		var os = require('os');
+		var usedMemory = os.totalmem() -os.freemem(), totalMemory = os.totalmem();
+		var  getpercentage = 
+		((usedMemory/totalMemory) * 100).toFixed(2) + '%'
+
 		const PerformanceMessage = new discord.MessageEmbed()
 			.setTimestamp()
 			.setColor("")
-			.setTitle("performance Stats")
+			.setTitle("Bot Performance")
 			.setDescription(`
-				Used RAM: 
-				RAM: 
-				Ping: 
-				CPU: 
+				**Used RAM:** ${getpercentage}
+				**RAM:** ${(usedMemory/ Math.pow(1024, 3)).toFixed(2)}
+				**Ping:** ${Date.now() - message.createdTimestamp} ms
 			`)
 		message.channel.send(PerformanceMessage);
 	}

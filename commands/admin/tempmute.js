@@ -44,6 +44,12 @@ module.exports = class TempMuteCommand extends Command {
 			});
             return;
 		}
+		if (db.get(`${message.mentions.users.first().id}.admin.CurrentlyMuted`)== 1){
+			const UserAlreadyMutedMessage = new discord.MessageEmbed()
+				.setColor("	#FF0000")
+				.setDescription(UserAlreadyMuted)
+			return message.channel.send(UserAlreadyMutedMessage);
+		}
 		let words = args.split(' ');
 		let time = words.slice(1).join(' ');
 		if(!time){
@@ -79,7 +85,9 @@ module.exports = class TempMuteCommand extends Command {
 		let users = message.mentions.users.first();
 
 		let MuteRole = message.guild.roles.cache.get(MuteRoleID);
-		TempMutedUser.roles.add(MuteRole).then(function(){
+		TempMutedUser.roles.add(MuteRole);
+		let MemberRole = message.guild.roles.cache.get(NewMemberRoleID);
+		MutedUser.roles.remove(MemberRole).then(function(){
 			TempMutedUser.send(`You have been temporarily muted on ${message.guild.name} because, ${reason}.`);
 		});
 
@@ -116,7 +124,9 @@ module.exports = class TempMuteCommand extends Command {
 		setTimeout(() => {
 			db.subtract(`${message.mentions.users.first().id}.admin.CurrentlyMuted`, 1);
 			let MuteRole = message.guild.roles.cache.get(MuteRoleID);
-			TempMutedUser.roles.remove(MuteRole).then(function(){
+			TempMutedUser.roles.remove(MuteRole);
+			let MemberRole = message.guild.roles.cache.get(NewMemberRoleID);
+			MutedUser.roles.remove(MemberRole).then(function(){
 				TempMutedUser.send(`You have been unmuted on ${message.guild.name} because, ${reason}.`);
 			});
 	

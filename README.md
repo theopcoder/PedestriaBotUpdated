@@ -8,5 +8,10 @@ Author: theopcoder
 Version: Early Access
 
 -----------------------
+# Contributors
+
+1. Wiicart wiicart
+2. MelonicOverlord MelonMan
+-----------------------
 Note: This will contain bugs and issues. This will be updated every day or almost every other day with the progress I have made.
 This was made for update version 2.0.0

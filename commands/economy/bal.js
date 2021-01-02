@@ -14,8 +14,11 @@ module.exports = class BalanceCommand extends Command {
 	}
 
 	run(message, args) {
+		if (message.guild === null){
+            message.reply(DMMessage);
+            return;
+		}
 		let BalUser = message.guild.member(message.mentions.users.first());
-		
         if (BalUser)
         {
             let BalMentions = db.get(`${message.mentions.users.first().id}.basic.money`); if (BalMentions == null)BalMentions = "0";
@@ -37,7 +40,7 @@ module.exports = class BalanceCommand extends Command {
 			const UserMoney = new discord.MessageEmbed()
 				.setTimestamp()
 				.setColor("#668d3c")
-				.setThumbnail(message.author.avatarURL())
+				.setThumbnail(message.author.displayAvatarURL())
 				.setTitle("Money Balence")
 				.setDescription(`**Balance:** $${Bal}`)
             message.channel.send(UserMoney);

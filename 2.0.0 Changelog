@@ -13,6 +13,7 @@ New Commands/Features:
 10. Added -performance command
 11. Added -history command to view a users history
 12. Added -rps (rock paper scissors)
+13. Added Discord Invite Protection in the Auto Moderation
 
 Changes:
 1. Updated -8ball command description

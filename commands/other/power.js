@@ -1,6 +1,8 @@
-const { Command } = require('discord.js-commando');
+const { Command, CommandoClient } = require('discord.js-commando');
 const BotData = require("../../BotData.js");
+const token = require("../../Token.js");
 const discord = require("discord.js");
+const client = new CommandoClient();
 const db = require("quick.db");
 
 module.exports = class PowerCommand extends Command {
@@ -13,25 +15,27 @@ module.exports = class PowerCommand extends Command {
 		});
 	}
 
-	run(bot, message, args) {
+	run(message, args) {
 		if (message.guild === null){
             message.reply(DMMessage);
             return;
         }
-        let words = args.split(' ');
-        let PowerAction = words.slice(0).join(' ');
+		let words = args.split(' ');
+		let PowerAction = words.slice(0).join(' ');
         if (!PowerAction) return message.reply(":warning: Do you want to restart or shutdown the bot?").then(message => {
             message.delete({timeout: 10000});
         });
 
         if (PowerAction == "restart"){
-            bot.destroy().then(() => {
-                bot.login(key);
-                message.reply("Bot is back on!");
+            message.channel.send("Restarting Bot...");
+            client.destroy().then(() => {
+                client.login(key);
             });
+            message.channel.send(`The bot is back online!`);
         }
         if (PowerAction == "shutdown"){
             message.channel.send(`Shuttingdown bot...`).then(message => {
+                message.channel.send("The bot is now offline.");
                 process.exit();
             });
         }

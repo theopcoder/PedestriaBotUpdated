@@ -1,6 +1,6 @@
 var BotData = [
-    Version = "0.0.19",//TODO When finished, go 0.1.0 move to 0.1.0 then 0.1.1 for bug fixes
-    VN = "Improvements",//VN stands for Version Name
+    Version = "0.1.0",
+    VN = "Finishing Up Bot",//VN stands for Version Name
     Developer = "TheMLGDude#2177 | theopcoder",
     DeveloperDiscord = "TheMLGDude#2177",
     DeveloperGitHub = "theopcoder",
@@ -20,7 +20,9 @@ var Errors = [
     Error7 = "**:warning: Error 7:** ```There was no description given! Please give a description or argument!```",
     StaffUser = ":no_entry_sign: Sorry, you can't perform this command on a staff member!",
     PermissionError = ":no_entry_sign: You don't have the  correct permission!",
+    UserAlreadyUnmuted = ":warning: That user is already unmuted!",
     DMMessage = ":warning: You can't use this command in DM's!",
+    UserAlreadyMuted = ":warning: That user is already muted!",
     NullUser = ":warning: Sorry, I couldn't find that user",
     Error1 = "**:warning: Error 1:** You have no xp!",
 ];
@@ -48,7 +50,7 @@ var BotConfiguration = [
     //Level Up Configuration----------------------------
     LevelUpChannelID = "790133196133629952",
     LevelUpMoney = "200",
-    MaxRandomXP = "4",
+    MaxRandomXP = "5",
     MaxXP = "200",
     //--------------------------------------------------
     //Dead Chat Ping Configuration----------------------
@@ -57,9 +59,13 @@ var BotConfiguration = [
     DCPTime = "6",
     //--------------------------------------------------
     //Support Channel Configuration---------------------
+    TicketStaffPingRoleID = "794463866369212427",
     SuggestionPingRoleID = "790134237579182081",
     SuggestionChannelID = "790133173542846544",
+    TicketLogChannelID = "794467568899457054",
     BugReportChannelID = "790133154370551808",
+    TicketCategoryID = "794459983470657536",
+    PollChannelID = "794384675539255296",
 ];
 
 //---------------Configuration Help---------------//

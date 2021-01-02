@@ -3,13 +3,13 @@ const BotData = require("../../BotData.js");
 const discord = require("discord.js");
 const db = require("quick.db");
 
-module.exports = class StatsCommand extends Command {
+module.exports = class WhoIsCommand extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'stats',
+			name: 'whois',
 			group: 'simple',
-			memberName: 'stats',
-			description: 'Shows you your stats!',
+			memberName: 'whois',
+			description: 'Shows some information on a user!',
 		});
 	}
 
@@ -20,23 +20,6 @@ module.exports = class StatsCommand extends Command {
         }
         let MentionedStatsUser = message.guild.member(message.mentions.users.first());
         if (MentionedStatsUser){
-            if (!message.member.hasPermission("MANAGE_MESSAGES")){
-                const PermissionErrorMessage = new discord.MessageEmbed()
-                    .setColor("#FF0000")
-                    .setDescription(`${PermissionError}`)
-                message.channel.send(PermissionErrorMessage).then(message => {
-                    message.delete({timeout: 10000})
-                });
-                return;
-            }
-            let Violations = db.get(`${message.mentions.users.first().id}.admin.violations`); if (Violations == null)Violations = "0";
-            let Warnings = db.get(`${message.mentions.users.first().id}.admin.warnings`); if (Warnings == null)Warnings = "0";
-            let Level = db.get(`${message.mentions.users.first().id}.basic.level`); if (Level == null)Level = "0";
-            let Money = db.get(`${message.mentions.users.first().id}.basic.money`); if (Money == null)Money = "0";
-            let Mutes = db.get(`${message.mentions.users.first().id}.admin.mutes`); if (Mutes == null)Mutes = "0";
-            let Kicks = db.get(`${message.mentions.users.first().id}.admin.kicks`); if (Kicks == null)Kicks = "0";
-            let Bans = db.get(`${message.mentions.users.first().id}.admin.bans`); if (Bans == null)Bans = "0";
-            let XP = db.get(`${message.mentions.users.first().id}.basic.xp`); if (XP == null)XP = "0";
             let users = message.mentions.users.first();
     
             const MentionedUserStats = new discord.MessageEmbed()
@@ -46,13 +29,14 @@ module.exports = class StatsCommand extends Command {
                 .setThumbnail(users.displayAvatarURL())
                 .setTitle("User Stats")
                 .setDescription(`
-                    **User:** ${MentionedStatsUser}
-                    **User ID:** ${message.mentions.users.first().id}
-                    **Balance:** $${Money}
-                    **Rank:** Level: ${Level} | XP: ${XP}
-                    **Violations:** ${Violations}
-                    **Other Violations:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
+                    ${message.mentions.users.first()}
                 `)
+                .addField("Joined", `${message.member.joinedAt}`, true)
+                .addField("Registered", `h`, true)
+                .addField(`Roles [$]`, `g`)
+                .addField("Key Permissions", "perms here")
+                .addField("Achnowledgements", "admin")
+                .setFooter(`${message.mentions.users.first().id}`)
             return message.channel.send(MentionedUserStats);
         }
         let Violations = db.get(`${message.author.id}.admin.violations`); if (Violations == null)Violations = "0";
@@ -64,7 +48,7 @@ module.exports = class StatsCommand extends Command {
         let Bans = db.get(`${message.author.id}.admin.bans`); if (Bans == null)Bans = "0";
         let XP = db.get(`${message.author.id}.basic.xp`); if (XP == null)XP = "0";
 
-        const UserStats = new discord.MessageEmbed()
+        const WhoIs = new discord.MessageEmbed()
             .setTimestamp()
             .setColor("#ADD8E6")
             .setAuthor(message.author.tag, message.author.displayAvatarURL())
@@ -73,10 +57,9 @@ module.exports = class StatsCommand extends Command {
             .setDescription(`
                 **Rank:** Level, ${Level} | XP, ${XP}
                 **Balance:** $${Money}
-                ${message.member.joinedAt}
                 **Violations:** ${Violations}
                 **Other Violations:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
             `)
-        message.channel.send(UserStats);
+        message.channel.send(WhoIs);
 	}
 };

@@ -28,7 +28,7 @@ module.exports = class UnmuteCommand extends Command {
 			return;
 		}
 		let UnmutedUser = message.guild.member(message.mentions.users.first());
-        if(!UnmutedUser) {
+        if(!UnmutedUser){
 			const NullUserMessage = new discord.MessageEmbed()
 				.setColor()
 				.setDescription(NullUser)
@@ -45,6 +45,15 @@ module.exports = class UnmuteCommand extends Command {
 				message.delete({timeout: 10000})
 			});
             return;
+		}
+		const UserAlreadyUnmutedMessage = new discord.MessageEmbed()
+			.setColor("	#FF0000")
+			.setDescription(UserAlreadyUnmuted)
+		if (db.get(`${message.mentions.users.first().id}.admin.CurrentlyMuted`)== null){
+			return message.channel.send(UserAlreadyUnmutedMessage);
+		}
+		if (db.get(`${message.mentions.users.first().id}.admin.CurrentlyMuted`)== 0){
+			return message.channel.send(UserAlreadyUnmutedMessage);
 		}
 		let words = args.split(' ');
 		let reason = words.slice(1).join(' ');
@@ -64,7 +73,9 @@ module.exports = class UnmuteCommand extends Command {
 		let users = message.mentions.users.first();
 
 		let MuteRole = message.guild.roles.cache.get(MuteRoleID);
-		UnmutedUser.roles.remove(MuteRole).then(function(){
+		UnmutedUser.roles.remove(MuteRole);
+		let MemberRole = message.guild.roles.cache.get(NewMemberRoleID);
+		UnmutedUser.roles.add(MemberRole).then(function(){
 			UnmutedUser.send(`You have been unmuted on ${message.guild.name} because, ${reason}.`);
 		});
 

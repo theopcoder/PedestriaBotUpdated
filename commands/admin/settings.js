@@ -14,13 +14,18 @@ module.exports = class SettingsCommand extends Command {
 	}
 
 	run(message, args) {
-		if(!message.member.hasPermission("ADMINISTRATOR"))
-        {
-            message.channel.send(":no_entry_sign: You do NOT have the permission to perform this command! :no_entry_sign:")
-            .then(msg => {
-                msg.delete(10000);
-            });
+        if (message.guild === null){
+            message.reply(DMMessage);
             return;
+		}
+		if(!message.member.hasPermission("ADMINISTRATOR")){
+			const PermissionErrorMessage = new discord.MessageEmbed()
+				.setColor("#FF0000")
+				.setDescription(`${PermissionError}`)
+			message.channel.send(PermissionErrorMessage).then(message => {
+				message.delete({timeout: 10000})
+			});
+			return;
         }
         let words = args.split(' ');
         let reason = words.slice(0).join(' ');

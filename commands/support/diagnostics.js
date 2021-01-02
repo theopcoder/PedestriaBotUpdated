@@ -14,11 +14,37 @@ module.exports = class DiagnosticsCommand extends Command {
 	}
 
 	run(message, args) {
-        //TODO add this command to fix any issues a user might encounter in the quick.db
         if (message.guild === null){
             message.reply(DMMessage);
             return;
-        }
-        return message.reply("Not Done");
+		}
+		let words = args.split(' ');
+		let diagnostic = words.slice(0).join(' ');
+
+		if (!diagnostic){
+			const DiagnosticOptions = new discord.MessageEmbed()
+				.setColor("#FFA500")
+				.setTimestamp()
+				.setTitle("Diagnostic Options")
+				.setDescription(`
+					1. Fix XP Status
+				`)
+			return message.channel.send(DiagnosticOptions);
+		}
+
+		const NoActionsNeeded = new discord.MessageEmbed()
+			.setTimestamp()
+			.setColor("#66ff00")
+			.setTitle("No Action Needed")
+		let NoActionNeededMessage = message.channel.send(NoActionsNeeded);
+
+		if (diagnostic == "1"){
+			if(db.get(`{xp}_${message.author.id}`) > MaxXP){
+				db.delete(`${message.author.id}.basic.xp`);
+				return message.reply(`Successfully repaired your xp!`);
+			}else{
+				return NoActionNeededMessage;
+			}
+		}
 	}
 };

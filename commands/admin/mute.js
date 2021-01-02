@@ -46,6 +46,12 @@ module.exports = class MuteCommand extends Command {
 			});
             return;
 		}
+		if (db.get(`${message.mentions.users.first().id}.admin.CurrentlyMuted`)== 1){
+			const UserAlreadyMutedMessage = new discord.MessageEmbed()
+				.setColor("	#FF0000")
+				.setDescription(UserAlreadyMuted)
+			return message.channel.send(UserAlreadyMutedMessage);
+		}
 		let words = args.split(' ');
 		let reason = words.slice(1).join(' ');
 		if(!reason){
@@ -59,7 +65,9 @@ module.exports = class MuteCommand extends Command {
 		}
 
 		let MuteRole = message.guild.roles.cache.get(MuteRoleID);
-		MutedUser.roles.add(MuteRole).then(function(){
+		MutedUser.roles.add(MuteRole);
+		let MemberRole = message.guild.roles.cache.get(NewMemberRoleID);
+		MutedUser.roles.remove(MemberRole).then(function(){
 			MutedUser.send(`You have been muted on ${message.guild.name} because, ${reason}.`);
 		});
 
