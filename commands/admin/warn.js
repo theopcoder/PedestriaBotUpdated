@@ -61,7 +61,7 @@ module.exports = class WarnCommand extends Command {
 		db.add(`${message.mentions.users.first().id}.admin.Warnings`, 1);
 		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
 		var WarningViolationNumber = db.add(`{WarningViolationNumber}_${message.mentions.users.first().id}`, 1);
-		db.push(`{WarnReason}_${message.mentions.users.first().id}`, `**Warning ${WarningViolationNumber}:** ${words.slice(1).join(' ')}`);
+		db.push(`{WarnReason}_${message.mentions.users.first().id}`, `**Warning ${WarningViolationNumber}:** [Mod: ${message.author} | Time: ${new Date().toLocaleString()}] ${words.slice(1).join(' ')}`);
 		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
 		let Warnings = db.get(`${message.mentions.users.first().id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
 		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";

@@ -46,7 +46,7 @@ module.exports = class PayCommand extends Command {
 			.setTitle("Successful Payment")
 			.setDescription(`
 				**Payed User:** ${message.mentions.users.first().tag}
-				**Amount:** ${Payment}
+				**Amount:** $${Payment}
 			`)
 		message.channel.send(PaymentConfirmationMessage);
 	}

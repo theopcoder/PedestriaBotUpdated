@@ -20,6 +20,15 @@ module.exports = class PowerCommand extends Command {
             message.reply(DMMessage);
             return;
         }
+        if(!message.member.hasPermission("ADMINISTRATOR")){
+			const PermissionErrorMessage = new discord.MessageEmbed()
+				.setColor("#FF0000")
+				.setDescription(`${PermissionError}`)
+			message.channel.send(PermissionErrorMessage).then(message => {
+				message.delete({timeout: 10000})
+			});
+			return;
+        }
 		let words = args.split(' ');
 		let PowerAction = words.slice(0).join(' ');
         if (!PowerAction) return message.reply(":warning: Do you want to restart or shutdown the bot?").then(message => {

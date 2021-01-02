@@ -39,7 +39,7 @@ module.exports = class DiagnosticsCommand extends Command {
 		let NoActionNeededMessage = message.channel.send(NoActionsNeeded);
 
 		if (diagnostic == "1"){
-			if(db.get(`{xp}_${message.author.id}`) > MaxXP){
+			if(db.get(`${message.author.id}.basic.xp`) > MaxXP){
 				db.delete(`${message.author.id}.basic.xp`);
 				return message.reply(`Successfully repaired your xp!`);
 			}else{

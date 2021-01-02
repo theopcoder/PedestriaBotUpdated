@@ -15,6 +15,6 @@ module.exports = class SurvivalGameCommand extends Command {
     //TODO Finish survival game command
 
 	run(message, args) {
-		
+		message.reply(Error4);
 	}
 };

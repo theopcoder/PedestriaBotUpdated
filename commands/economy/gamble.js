@@ -14,10 +14,6 @@ module.exports = class GambleCommand extends Command {
 	}
 
 	run(message, args) {
-		if (message.guild === null){
-            message.reply(DMMessage);
-            return;
-        }
         let words = args.split(' ');
         let bet = words.slice(0).join(' ');
         let Extra = words.slice(1).join(' ');
@@ -33,11 +29,11 @@ module.exports = class GambleCommand extends Command {
             });
             return;
         }
-        if (Extra)return message.reply("Incorect command usage/arguments! Example: -gamble 1500");
         if (!bet)return message.reply(':warning: You must bet atleast $1000 to use this command!').then(message => {
 			message.delete({timeout: 10000});
-		});
-        if (bet < 10)return message.channel.send(`I'm sorry ${message.author}, you have to bet **$1000** or more to use this command!`);
+        });
+        if (Extra)return message.reply("Incorect command usage/arguments! Example: -gamble 1500");
+        if (bet < 1000)return message.channel.send(`I'm sorry ${message.author}, you have to bet **$1000** or more to use this command!`);
         if (bet > bal)return message.channel.send(`I'm sorry ${message.author}, You don't have enough money to make a $**${bet}** bet. You only have $**${bal}**!`);
         db.subtract(`{money}_${message.author.id}`, bet);
         var GambleBet = Math.floor(Math.random() * 25);

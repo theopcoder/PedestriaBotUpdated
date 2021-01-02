@@ -38,6 +38,15 @@ module.exports = class UnbanCommand extends Command {
 			});
 			return;
 		}
+		if (isNaN(words[0])){
+			const NullUserMessage = new discord.MessageEmbed()
+				.setColor()
+				.setDescription("Please use a user ID!")
+			message.channel.send(NullUserMessage).then(message => {
+				message.delete({timeout: 10000});
+			});
+			return;
+		}
         if (!reason){
 			const NoReasonWarning = new discord.MessageEmbed()
 				.setColor()
@@ -53,10 +62,10 @@ module.exports = class UnbanCommand extends Command {
 		const ChatBanMessage = new discord.MessageEmbed()
 			.setColor("0xFFA500")
 			.setTimestamp()
-			.setTitle("Ban")
+			.setTitle("Unban")
 			.setDescription(`
 				**Moderator:** ${message.author}
-				**User:** ${words[0].username}
+				**User:** ${words[0]}
 				**Reason:** ${reason}
 			`)
 		message.channel.send(ChatBanMessage);

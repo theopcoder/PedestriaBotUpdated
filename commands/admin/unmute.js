@@ -69,7 +69,7 @@ module.exports = class UnmuteCommand extends Command {
 
 		db.subtract(`${message.mentions.users.first().id}.admin.CurrentlyMuted`, 1);
 		var UnmuteNumber = db.add(`{UnmuteNumber}_${message.mentions.users.first().id}`, 1);
-		db.push(`{UnmuteReason}_${message.mentions.users.first().id}`, `**Unmute ${UnmuteNumber}:** ${words.slice(1).join(' ')}`);
+		db.push(`{UnmuteReason}_${message.mentions.users.first().id}`, `**Unmute ${UnmuteNumber}:** [Mod: ${message.author} | Time: ${new Date().toLocaleString()}] ${words.slice(1).join(' ')}`);
 		let users = message.mentions.users.first();
 
 		let MuteRole = message.guild.roles.cache.get(MuteRoleID);
@@ -78,9 +78,11 @@ module.exports = class UnmuteCommand extends Command {
 		UnmutedUser.roles.add(MemberRole).then(function(){
 			UnmutedUser.send(`You have been unmuted on ${message.guild.name} because, ${reason}.`);
 		});
+		let TimesBypassedMute = db.get(`${message.mentions.users.first().id}.admin.TimesBypassedMute`); if (TimesBypassedMute == null)TimesBypassedMute = "0";
+		db.delete(`${message.mentions.users.first().id}.admin.TimesBypassedMute`);
 
 		const ChatUnmuteMessage = new discord.MessageEmbed()
-			.setColor("0xFFA500")
+			.setColor("#33ab63")
 			.setTimestamp()
 			.setThumbnail(users.displayAvatarURL())
 			.setTitle("Unmute")
@@ -92,7 +94,7 @@ module.exports = class UnmuteCommand extends Command {
 		message.channel.send(ChatUnmuteMessage);
 
 		const UnmuteLogMessage = new discord.MessageEmbed()
-			.setColor("0xFFA500")
+			.setColor("#33ab63")
 			.setTimestamp()
 			.setThumbnail(users.displayAvatarURL())
 			.setTitle("Unmute")
@@ -100,6 +102,7 @@ module.exports = class UnmuteCommand extends Command {
 				**Moderator:** ${message.author}
 				**Unmuted User:** ${UnmutedUser}
 				**User ID:** ${message.mentions.users.first().id}
+				**Mute Evasions:** ${TimesBypassedMute}
 				**Reason:** ${reason}
 			`)
 		let LogChannel = message.guild.channels.cache.get(LogChannelID);

@@ -13,7 +13,7 @@ module.exports = class TicketCommand extends Command {
 		});
 	}
 
-	run(message, args) {
+	run(message, args) {//TODO Finish ticket.js
         if (message.guild === null){
             message.reply(DMMessage);
             return;
@@ -28,7 +28,7 @@ module.exports = class TicketCommand extends Command {
 
         let category = message.member.guild.channels.cache.find(c => c.id == `${TicketCategoryID}` && c.type == "category");
 
-        if (reason == "close"){
+        /*if (reason == "close"){
             let TicketLogChannel = message.guild.channels.cache.get(TicketLogChannelID);
 
             if (message.channel.id === "794459983470657536"){
@@ -38,7 +38,7 @@ module.exports = class TicketCommand extends Command {
             }else{
                 return message.reply(":warning: This is not a ticket!");
             }
-        }
+        }*/
 
         db.add("TicketNumber", 1);
         message.member.guild.channels.create(`Ticket-${db.get("TicketNumber")}`).then(channel => {

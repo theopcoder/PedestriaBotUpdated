@@ -52,6 +52,7 @@ module.exports = class StatsCommand extends Command {
                     **Rank:** Level: ${Level} | XP: ${XP}
                     **Violations:** ${Violations}
                     **Other Violations:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
+                    **CurrentlyMuted:** ${db.get(`${message.mentions.users.first().id}.admin.CurrentlyMuted`)}
                 `)
             return message.channel.send(MentionedUserStats);
         }
@@ -71,9 +72,8 @@ module.exports = class StatsCommand extends Command {
             .setThumbnail(message.author.displayAvatarURL())
             .setTitle("Stats")
             .setDescription(`
-                **Rank:** Level, ${Level} | XP, ${XP}
+                **Rank:** Level: ${Level} | XP: ${XP}
                 **Balance:** $${Money}
-                ${message.member.joinedAt}
                 **Violations:** ${Violations}
                 **Other Violations:** Warnings: ${Warnings} | Mutes: ${Mutes} | Kicks: ${Kicks} | Bans: ${Bans}
             `)

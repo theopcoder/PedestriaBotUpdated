@@ -5,7 +5,7 @@ This is a repository that will show progress for PedestriaBotOfficial updating t
 # Other:
 
 Author: theopcoder  
-Version: Early Access
+Version: 2.0.0 | Completed
 
 -----------------------
 # Contributors
@@ -13,5 +13,4 @@ Version: Early Access
 1. Wiicart wiicart
 2. MelonicOverlord MelonMan
 -----------------------
-Note: This will contain bugs and issues. This will be updated every day or almost every other day with the progress I have made.
-This was made for update version 2.0.0
+Note: This repository was for the PedestriaBotOfficial 2.0.0 update

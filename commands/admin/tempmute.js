@@ -76,7 +76,7 @@ module.exports = class TempMuteCommand extends Command {
 		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
 		db.add(`${message.mentions.users.first().id}.admin.CurrentlyMuted`, 1);
 		var MuteViolationNumber = db.add(`{MuteViolationNumber}_${message.mentions.users.first().id}`, 1);
-		db.push(`{MuteReason}_${message.mentions.users.first().id}`, `**TempMute ${MuteViolationNumber}:** ${words.slice(1).join(' ')}`);
+		db.push(`{MuteReason}_${message.mentions.users.first().id}`, `**TempMute ${MuteViolationNumber}:** [Mod: ${message.author} | Time: ${new Date().toLocaleString()}] ${words.slice(1).join(' ')}`);
 		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
 		let Warnings = db.get(`${message.mentions.users.first().id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
 		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";
@@ -123,6 +123,8 @@ module.exports = class TempMuteCommand extends Command {
 
 		setTimeout(() => {
 			db.subtract(`${message.mentions.users.first().id}.admin.CurrentlyMuted`, 1);
+			let TimesBypassedMute = db.get(`${message.mentions.users.first().id}.admin.TimesBypassedMute`); if (TimesBypassedMute == null)TimesBypassedMute = "0";
+			db.delete(`${message.mentions.users.first().id}.admin.TimesBypassedMute`);
 			let MuteRole = message.guild.roles.cache.get(MuteRoleID);
 			TempMutedUser.roles.remove(MuteRole);
 			let MemberRole = message.guild.roles.cache.get(NewMemberRoleID);
@@ -131,7 +133,7 @@ module.exports = class TempMuteCommand extends Command {
 			});
 	
 			const ChatUnmuteMessage = new discord.MessageEmbed()
-				.setColor("0xFFA500")
+				.setColor("#33ab63")
 				.setTimestamp()
 				.setThumbnail(users.displayAvatarURL())
 				.setTitle("Unmute")
@@ -143,7 +145,7 @@ module.exports = class TempMuteCommand extends Command {
 			message.channel.send(ChatUnmuteMessage);
 	
 			const UnmuteLogMessage = new discord.MessageEmbed()
-				.setColor("0xFFA500")
+				.setColor("#33ab63")
 				.setTimestamp()
 				.setThumbnail(users.displayAvatarURL())
 				.setTitle("Unmute")
@@ -151,6 +153,7 @@ module.exports = class TempMuteCommand extends Command {
 					**Moderator:** <@635572455439597569>
 					**TempMuted User:** ${TempMutedUser}
 					**User ID:** ${message.mentions.users.first().id}
+					**Mute Evasions:** ${TimesBypassedMute}
 					**Reason:** ${reason}
 				`)
 			let LogChannel = message.guild.channels.cache.get(LogChannelID);

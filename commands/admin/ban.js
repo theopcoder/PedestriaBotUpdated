@@ -61,7 +61,7 @@ module.exports = class BanCommand extends Command {
 		db.add(`${message.mentions.users.first().id}.admin.Bans`, 1);
 		db.add(`${message.mentions.users.first().id}.admin.Violations`, 1);
 		var BanViolationNumber = db.add(`{BanViolationNumber}_${message.mentions.users.first().id}`, 1);
-		db.push(`{BanReason}_${message.mentions.users.first().id}`, `**Ban ${BanViolationNumber}:** ${words.slice(1).join(' ')}`);
+		db.push(`{BanReason}_${message.mentions.users.first().id}`, `**Ban ${BanViolationNumber}:** [Mod: ${message.author} | Time: ${new Date().toLocaleString()}] ${words.slice(1).join(' ')}`);
 		let Violations = db.get(`${message.mentions.users.first().id}.admin.Violations`); if (Violations == null)Violations = "0";
 		let Warnings = db.get(`${message.mentions.users.first().id}.admin.Warnings`); if (Warnings == null)Warnings = "0";
 		let Mutes = db.get(`${message.mentions.users.first().id}.admin.Mutes`); if (Mutes == null)Mutes = "0";
@@ -74,7 +74,7 @@ module.exports = class BanCommand extends Command {
 		});
 
 		const ChatBanMessage = new discord.MessageEmbed()
-			.setColor("0xFFA500")
+			.setColor("FF0000")
 			.setTimestamp()
 			.setThumbnail(users.displayAvatarURL())
 			.setTitle("Ban")
@@ -86,7 +86,7 @@ module.exports = class BanCommand extends Command {
 		message.channel.send(ChatBanMessage);
 
 		const BanLogMessage = new discord.MessageEmbed()
-			.setColor("0xFFA500")
+			.setColor("#FF0000")
 			.setTimestamp()
 			.setThumbnail(users.displayAvatarURL())
 			.setTitle("Ban")

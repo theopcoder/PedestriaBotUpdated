@@ -14,11 +14,16 @@ module.exports = class PerformanceCommand extends Command {
 	}
 
 	run(message, args) {
-		if (message.guild === null){
-            message.reply(DMMessage);
-            return;
+		if (!message.member.hasPermission("MANAGE_MESSAGES")){
+			const PermissionErrorMessage = new discord.MessageEmbed()
+				.setColor("#FF0000")
+				.setDescription(`${PermissionError}`)
+			message.channel.send(PermissionErrorMessage).then(message => {
+				message.delete({timeout: 10000})
+			});
+			return;
 		}
-		
+
 		var os = require('os');
 		var usedMemory = os.totalmem() -os.freemem(), totalMemory = os.totalmem();
 		var  getpercentage = 
